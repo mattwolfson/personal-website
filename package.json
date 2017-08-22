@@ -2,6 +2,10 @@
   "name": "udemy-nodejs-angular2",
   "version": "1.0.0",
   "private": true,
+  "engines": {
+    "node": "7.4.0",
+    "npm": "4.0.5"
+  },
   "scripts": {
     "start": "node ./bin/www",
     "build": "del-cli public/js/app && webpack --config webpack.config.dev.js --progress --profile --watch",
