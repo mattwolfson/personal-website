@@ -10,12 +10,38 @@ import { Message } from "./message.model";
 })
 
 export class MessageInputComponent {
+	message: Message;
+
 	constructor(private messageService: MessageService) {}
 
 	onSubmit(form: NgForm) {
-		console.log(form);
-		const message = new Message(form.value.content, 'Matt');
-		this.messageService.addMessage(message);
+		if (this.message) {
+			//Edit
+			this.message.content = form.value.content;
+			this.messageService.updateMessage(this.message)
+				.subscribe( result => console.log(result));
+			this.message = null
+			//this.messageService
+		} else {
+			//Create
+			const message = new Message(form.value.content, 'Matt');
+			this.messageService.addMessage(message)
+				.subscribe(
+					data => console.log(data),
+					error => console.error(error)
+				);
+		}
 		form.resetForm();
+	}
+
+	onClear(form: NgForm) {
+		this.message = null;
+		form.resetForm();
+	}
+
+	ngOnInit() {
+		this.messageService.messageIsEdit.subscribe(
+			(message: Message) => this.message = message
+		)
 	}
 }
