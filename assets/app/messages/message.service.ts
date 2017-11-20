@@ -19,7 +19,7 @@ export class MessageService {
 		const token = localStorage.getItem('token') 
 				? '?token=' + localStorage.getItem('token') 
 				: '';
-		return this.http.post('https://messenger-site.herokuapp.com/message' + token, body, {headers: headers})
+		return this.http.post('http://localhost:3000/message' + token, body, {headers: headers})
 			.map((response: Response) => {
 				const result = response.json();
 				const message = new Message(
@@ -39,22 +39,24 @@ export class MessageService {
 	}
 
 	getMessages() {
-		return this.http.get('https://messenger-site.herokuapp.com/message')
+		return this.http.get('http://localhost:3000/message')
 			.map((response: Response) => {
 				const messages = response.json().obj;
 				let transformedMessages: Message[] = [];
+				console.log(messages);
 				for (let message of messages) {
 					transformedMessages.push(new Message(
 						message.content, 
-						message.user.firstName, 
+						message.user ? message.user.firstName : null, 
 						message._id, 
-						message.user._id
+						message.user ? message.user._id : null
 					));
 				}
 				this.messages = transformedMessages;
 				return transformedMessages;
 			})
 			.catch((error: Response) => {
+				console.log(error);
 				this.errorService.handleError(error.json());
 				return Observable.throw(error.json());
 			});
@@ -70,7 +72,7 @@ export class MessageService {
 		const token = localStorage.getItem('token') 
 			? '?token=' + localStorage.getItem('token') 
 			: '';
-		return this.http.patch('https://messenger-site.herokuapp.com/message/' + message.messageId + token, body, {headers: headers})
+		return this.http.patch('http://localhost:3000/message/' + message.messageId + token, body, {headers: headers})
 			.map((response: Response) => response.json())
 			.catch((error: Response) => {
 				this.errorService.handleError(error.json());
@@ -83,7 +85,7 @@ export class MessageService {
 		const token = localStorage.getItem('token') 
 			? '?token=' + localStorage.getItem('token') 
 			: '';
-		return this.http.delete('https://messenger-site.herokuapp.com/message/' + message.messageId + token)
+		return this.http.delete('http://localhost:3000/message/' + message.messageId + token)
 			.map((response: Response) => response.json())
 			.catch((error: Response) => {
 				this.errorService.handleError(error.json());
