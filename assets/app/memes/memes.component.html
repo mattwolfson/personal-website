@@ -1,0 +1,22 @@
+<div class='funFont' id="memeSectionWrapper" (window:resize)="onResize($event)">
+    <h1 id='memePageTitle'>{{title}}</h1>
+    <div class='inputSection'>
+        <label>Image: </label>
+        <input [(ngModel)]="meme.imageUrl" placeholder="Paste Image Url" class='inputMemeInfo' (ngModelChange)="onImageUpdate($event)" ng-init="onImageUpdate($event)">
+    </div>
+    <div class='inputSection'>
+        <label>Top Text: </label>
+        <input [(ngModel)]="meme.topText" placeholder="Write Top Meme Text" class='inputMemeInfo'>
+    </div>
+    <div class='inputSection'>
+        <label>Bottom Text: </label>
+        <input [(ngModel)]="meme.bottomText" placeholder="Write Bottom Meme Text" class='inputMemeInfo'>
+    </div>
+    <div id="memeWrapper">
+        <div id="meme1"> 
+            <div class="topMemeText memeText">{{meme.topText}}</div>
+            <div class="bottomMemeText memeText">{{meme.bottomText}}</div>
+        </div>
+    </div>
+</div>
+      

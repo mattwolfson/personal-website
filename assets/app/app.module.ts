@@ -11,17 +11,21 @@ import { AuthenticationComponent } from "./auth/authentication.component";
 import { HeaderComponent } from "./header.component";
 import { routing } from "./app.routing";
 import { AuthService } from "./auth/auth.service";
+import { MemesComponent } from './memes/memes.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
     declarations: [
         AppComponent,
         AuthenticationComponent,
         BracketsComponent,
+        MemesComponent,
         HeaderComponent,
         ErrorComponent
     ],
     imports: [
     	BrowserModule,
+        FormsModule,
 		routing, 
         HttpModule,
         MessageModule
