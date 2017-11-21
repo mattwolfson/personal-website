@@ -1,0 +1,2 @@
+define(["knockout","jquery","userData","designer/app/builder/data/designerData"],function(e,t,n,d){var i="ThemeEditMode"===n.editingMode;return i?d.loadTemplateInfo().then(function(e){var t=function(){return e};return{getThemeData:t,isThemeEditMode:i}}):{isThemeEditMode:!1}});
+//# sourceMappingURL=themeData.js.map

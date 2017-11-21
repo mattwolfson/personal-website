@@ -1,0 +1,199 @@
+* {
+    font-family: Helvetica, Arial, Courier;
+}
+
+#bracket-container {
+    display: flex;
+    flex-direction: column;
+    width: 1060px;
+    justify-content: center;
+    align-items: center;
+}
+
+h1 {
+    font-size: 40px;
+    color: orange;
+    text-align: center;
+}
+
+.bracket {
+    display: flex;
+    flex-wrap: wrap;
+    height: 620px;
+    width: inherit;
+    border: black double;
+    margin: 0 auto 10px;
+    padding: 7.6px;
+    justify-content: space-between;
+}
+
+.conference {
+    width: 40%;
+    height: 100%;
+    display: flex;
+}
+
+.westGroup {
+    order: 1;
+}
+
+.eastGroup {
+    flex-direction: row-reverse;
+    order: 3;
+}
+
+.round1, .round-1, .round2, .round3, .round4, .round {
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+}
+
+.westGroup .bottom {
+    border-right: solid orange;
+}
+
+.eastGroup .bottom {
+    border-left: solid orange;
+}
+
+.round-1 {
+    justify-content: center;
+}
+
+.teamContent {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    flex-grow: 6;
+    width: 100%;
+    border-bottom: solid orange;
+    border-width: 3px;
+}
+
+.firstTeamInRound {
+    flex-grow: 1;
+}
+
+.westGroup .round-1 .teamContent {
+    align-items: normal;
+}
+
+.round-2 {
+    padding: 37.5px 0px;
+}
+
+.round-3 {
+    padding: 112.5px 0px;
+}
+
+.round-4 {
+    padding: 262.5px 0px;
+}
+
+#champion {
+    width: 18%;
+    display: flex;
+    flex-direction: column;
+    text-decoration: underline;
+    color: orange;
+    order: 2;
+    justify-content: center;
+    align-items: center;
+}
+
+#champion img {
+    width: fit-content;
+    height: 150px;
+    max-height: 150px;
+    max-width: 100%;
+    border-bottom: solid;
+    border-width: 3px;
+    margin-bottom: 60%;
+}
+
+img {
+    box-sizing: border-box;
+    max-width: 80%;
+    width: fit-content;
+    height: 55px;
+    cursor: pointer;
+    margin-bottom: 3px;
+}
+
+img:hover {
+    border: 1px solid dodgerblue;
+}
+
+form {
+    transform: translate(0px, 50px);
+    position: absolute;
+    width: 45px;
+    height: 40px;
+    z-index: 5;
+    color: orange;
+}
+
+input {
+    position: absolute;
+    padding: 0;
+    margin: 0;
+    resize: none;
+    overflow: none;
+    height: 22px;
+    width: 13px;
+    font-size: 22px;
+    font-weight: bold;
+    border-style: solid;
+    border-width: .5px;
+    border-color: grey;
+}
+
+form span {
+    text-align: center;
+    font-family: Courier;
+    font-size: 22px;
+    font-weight: bold;
+    position: absolute;
+    width: 25px;
+    left: 10px;
+}
+
+input.left {
+    left: 0;
+}
+
+input.right {
+    right: 0;
+}
+
+.rank {
+  position: absolute;
+  opacity: .8;
+  background: orange;
+  border-radius: 10px;
+  font-size: 30px;
+}
+
+#submitBracket {
+    height: 80px;
+    width: 320px;
+    font-size: 40px;
+    font-weight: bold;
+    padding: 5px;
+    border-radius: 5px;
+    opacity: 1;
+    background: #7cee4c;
+}
+
+#bracketNotFullAlert {
+    height: 80px;
+    width: 320px;
+    background-color: #ff5555;
+    font-size: 24px;
+    font-weight: bold;
+    opacity: .9;
+    position: relative;
+    bottom: 80px;
+    padding: 5px;
+    border-radius: 5px;
+}

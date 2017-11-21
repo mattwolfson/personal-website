@@ -1,0 +1,144 @@
+﻿#wsbDomainSelectorDomainOfMineTooltip {
+    margin: 3px 0 0 6px;
+}
+
+#wsbDomainSelectorDomainOfMineTooltipContent {
+    display: none;
+}
+
+.wsb-domain-selector-label-with-tooltip {
+    float: left;
+}
+
+.wsb-domain-selector-link {
+    color: #0000ff;
+    text-decoration: underline;
+}
+
+#wsbDomainSelectorDialog {
+    padding: 15px;
+}
+
+.wsb-domain-selector-section {
+    margin: 10px 0;
+}
+
+.wsb-domain-selector-list {
+    background-color: #fff;
+    border: 1px solid #b3b3b3;
+    height: 30px;
+    line-height: 30px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    color: #747474;
+    display: inline-block;
+    padding: 4px 6px;
+    vertical-align: middle;
+    font-family: "Maven Pro",Helvetica,Arial,sans-serif !important;
+    font-size: 15px !important;
+    font-weight: normal;  
+    margin: 5px 0 0 20px;
+    
+    cursor: pointer;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+       -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+
+.wsb-domain-selector-textbox {
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    color: #272727;
+    display: inline-block;
+    font-size: 15px !important;
+    font-family: "Maven Pro",Helvetica,Arial,sans-serif !important;
+    font-weight: normal;  
+    height: 20px;
+    line-height: 20px;       
+    margin-bottom: 10px;
+    padding: 4px 6px;
+    vertical-align: middle;
+    border: 1px solid #b3b3b3;
+    outline: none;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+       -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    -webkit-transition: border linear 0.2s, box-shadow linear 0.2s;
+       -moz-transition: border linear 0.2s, box-shadow linear 0.2s;
+         -o-transition: border linear 0.2s, box-shadow linear 0.2s;
+            transition: border linear 0.2s, box-shadow linear 0.2s;
+}
+
+.wsb-domain-selector-textbox:focus {
+    border-color: #bbb;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px rgba(0, 0, 0, 0.15);
+       -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px rgba(0, 0, 0, 0.15);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px rgba(0, 0, 0, 0.15);
+}
+
+#wsbDomainSelectorExternalDomain,
+#wsbDomainSelectorCurrentDomain {
+    width: 433px;
+    margin: 5px 0 0 20px;
+}
+
+#wsbDomainSelectorSubDomain {
+    vertical-align: top;
+    width: 108px;
+    margin: 5px 0 0 20px;
+}
+
+#wsbDomainSelectorAvailableDomainList {
+    width: 450px;
+}
+
+#wsbDomainSelectorSubDomainList {
+    width: 308px;
+    margin-left: 0;
+    vertical-align: baseline;
+}
+
+.wsb-domain-selector-subdomain-hint {
+    margin: 5px 0 0 20px;
+}
+
+.wsb-domain-selector-subdomain-hint a,
+.wsb-domain-selector-subdomain-hint a:link,
+.wsb-domain-selector-subdomain-hint a:visited,
+.wsb-domain-selector-bottom-links a,
+.wsb-domain-selector-bottom-links a:link,
+.wsb-domain-selector-bottom-links a:visited {
+    color: #3182e6;
+    font-size: 12px;
+    text-decoration: none;
+}
+
+#wsbDomainSelectorErrorContainer {
+    height: 20px;
+}
+
+.wsb-domain-selector-bottom-links {
+    margin-top: 5px
+}
+
+.wsb-domain-selector-input-validation-error {
+    background-color: #FFDCDC;
+    border: 1px solid #E57373;
+}
+
+#wsbDomainSelectorErrorContainer {
+    color: #D00000;
+    font-size: 12px;
+    margin: 0 0 0 20px;
+}
+
+#wsbDomainSelectorContainer {
+    height: 165px;
+}
+
+.domain-settings-note {
+    color: #A7A7A7;
+    font-size: 12px;
+}

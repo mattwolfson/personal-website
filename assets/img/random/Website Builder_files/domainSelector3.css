@@ -1,0 +1,22 @@
+﻿#wsbDomainSelectorDialog.wsb-domain-selector {
+  padding: 15px 0 0 0;
+}
+
+.wsb-domain-selector {
+  /* height and width do not work when calling wsbDialog */
+  height: 230px;
+  width: 540px;
+}
+
+.wsb-domain-selector-container {
+  width: 510px;
+  margin: 0 auto;
+}
+
+.wsb-domain-selector-section {
+  margin: 10px 0;
+}
+
+.wsb-domain-selector a {
+  color: blue;
+}

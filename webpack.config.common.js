@@ -18,6 +18,13 @@ module.exports = {
             {
                 test: /\.css$/,
                 use: [{ loader: 'raw-loader' }]
+            },
+            {
+                test: /\.(ttf|eot|svg)(\?v=.+)?$/, loader: 'file-loader?name=[name].[ext]'
+            },
+            {
+                test: /\.(jpg|png|gif)$/,
+                loader: 'file-loader?name=[name].[ext]'
             }
         ],
         exprContextCritical: false

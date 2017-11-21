@@ -1,3 +1,4 @@
+import { BracketsComponent } from './brackets/brackets.component';
 import { MessageModule } from './messages/message.module';
 import { ErrorService } from './errors/error.service';
 import { ErrorComponent } from './errors/error.component';
@@ -15,6 +16,7 @@ import { AuthService } from "./auth/auth.service";
     declarations: [
         AppComponent,
         AuthenticationComponent,
+        BracketsComponent,
         HeaderComponent,
         ErrorComponent
     ],

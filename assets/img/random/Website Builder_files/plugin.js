@@ -1,0 +1,2 @@
+CKEDITOR.plugins.add("blockimagepaste",{init:function(a){function t(a){return a.replace(/<img[^>]*src="data:image\/(bmp|dds|gif|jpg|jpeg|png|psd|pspimage|tga|thm|tif|tiff|yuv|ai|eps|ps|svg);base64,.*?"[^>]*>/gi,function(){return""})}a.on("paste",function(a){var e=a.data,i=e.html||e.type&&"html"===e.type&&e.dataValue;i&&(CKEDITOR.env.webkit&&i.indexOf("webkit-fake-url")>0&&(i=i.replace(/<img src="webkit-fake-url:.*?">/gi,"")),i=t(i),a.data.html?a.data.html=i:a.data.dataValue=i)})}});
+//# sourceMappingURL=plugin.js.map

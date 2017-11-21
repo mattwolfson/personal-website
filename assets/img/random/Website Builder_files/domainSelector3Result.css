@@ -1,0 +1,38 @@
+﻿.domain-selector-result-container {
+  padding-top: 30px;
+}
+
+.domain-selector-result-icon-checkmark,
+.domain-selector-result-icon-warning {
+  background-position: 0 0;
+  background-repeat: no-repeat;
+  height: 48px;
+  width: 48px;
+  margin: 0 auto 20px auto;
+}
+
+.domain-selector-result-icon-checkmark {
+  background-image: url("../../../images/icon_success.png");
+}
+
+.domain-selector-result-icon-warning {
+  background-image: url("../../../images/icon_danger.png");
+}
+
+.domain-selector-result-title {
+  text-align: center;
+  font-size: 22px;
+  margin-bottom: 25px;
+}
+
+.domain-selector-result-message-container {
+  overflow: auto;
+}
+
+.domain-selector-message-section {
+  margin-bottom: 10px;
+}
+
+.domain-selector-site-link {
+  color: blue;
+}

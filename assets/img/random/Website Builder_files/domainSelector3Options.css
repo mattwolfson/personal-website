@@ -1,0 +1,77 @@
+﻿.wsb-domain-selector-options-title {
+  margin-bottom: 10px;
+}
+
+.wsb-domain-selector-options-title-period {
+  position: relative;
+  left: -5px;
+}
+
+.icon-info-domain-selector-options {
+     background-image: url(../../../images/wsb-v7-sprite-2.png);
+     background-position: 0 -2866px;
+     height: 16px;
+     width: 16px;
+}
+
+.wsb-domain-selector-options-label {
+    float: left;
+    width: 160px;
+    margin-right: 5px;
+}
+
+.wsb-domain-selector-options-label {
+    margin-left: 40px;
+}
+
+.wsb-domain-selector-options-section {
+    margin: 10px 0;
+    width: 100%;
+    overflow: hidden;
+}
+
+.wsb-domain-selector-options-textbox {
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    color: #999999;
+    display: inline-block;
+    font-size: 15px !important;
+    font-family: "Maven Pro",Helvetica,Arial,sans-serif !important;
+    font-weight: normal;  
+    height: 20px;
+    line-height: 20px;       
+    margin: 5px 0 0 0;
+    padding: 4px 6px;
+    vertical-align: middle;
+    border: 1px solid #b3b3b3;
+    outline: none;
+    width: 220px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+       -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    -webkit-transition: border linear 0.2s, box-shadow linear 0.2s;
+       -moz-transition: border linear 0.2s, box-shadow linear 0.2s;
+         -o-transition: border linear 0.2s, box-shadow linear 0.2s;
+            transition: border linear 0.2s, box-shadow linear 0.2s;
+}
+
+.wsb-domain-selector-options-textbox:focus {
+    border-color: #bbb;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px rgba(0, 0, 0, 0.15);
+       -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px rgba(0, 0, 0, 0.15);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px rgba(0, 0, 0, 0.15);
+}
+
+.wsb-domain-selector-options-textbox.wsb-domain-selector-options-textbox-enabled {
+    color: #272727;
+}
+
+#wsbDomainSelectorDialog ::-webkit-input-placeholder { font-style:italic; }
+#wsbDomainSelectorDialog ::-moz-placeholder { font-style:italic; } /* firefox 19+ */
+#wsbDomainSelectorDialog :-ms-input-placeholder { font-style:italic; } /* ie */
+#wsbDomainSelectorDialog input:-moz-placeholder { font-style:italic; }
+
+.radio .wsb-domain-selector-options-label-span {
+  white-space: normal;
+}

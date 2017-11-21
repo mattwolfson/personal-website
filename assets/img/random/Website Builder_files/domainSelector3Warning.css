@@ -1,0 +1,30 @@
+﻿.wsbDomainWarningContainerWarning,
+.wsbDomainWarningContainerError {
+    width: 100%;
+}
+
+.wsbDomainWarningContainerWarning {
+    background-color: orange;
+}
+
+.wsbDomainWarningContainerError {
+    background-color: red;
+}
+
+.wsbDomainWarningInnerContainer {
+    margin: 0 10px 0 10px;
+}
+
+.wsbDomainWarningIcon {
+    float: left;
+    background-image: url('../../../images/wsb-v7-sprite.png');
+    background-repeat: no-repeat;
+    background-position: 0 -13084px;
+    height: 21px;
+    width: 23px;
+    margin-top: 5px;
+}
+
+.wsbDomainWarningText {
+    padding: 11px 0 5px 28px;
+}
