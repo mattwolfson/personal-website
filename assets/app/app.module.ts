@@ -13,6 +13,7 @@ import { routing } from "./app.routing";
 import { AuthService } from "./auth/auth.service";
 import { MemesComponent } from './memes/memes.component';
 import { FormsModule } from '@angular/forms';
+import { PicksComponent } from './picks/picks.component';
 
 @NgModule({
     declarations: [
@@ -21,7 +22,8 @@ import { FormsModule } from '@angular/forms';
         BracketsComponent,
         MemesComponent,
         HeaderComponent,
-        ErrorComponent
+        ErrorComponent,
+        PicksComponent
     ],
     imports: [
     	BrowserModule,

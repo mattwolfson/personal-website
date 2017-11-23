@@ -1,0 +1,31 @@
+<div id="picksContainer" class="col-md-8 col-md-offset-2"
+    *ngFor="let pickData of allPicks; let idx = index">
+    <tr>
+        <td class="userName">
+            {{pickData.firstName && !pickData.lastName ? pickData.firstName + '\'s' : ''}}
+            {{pickData.firstName && pickData.lastName ? pickData.firstName + ' ' + pickData.lastName + 's' : ''}}
+            {{!pickData.firstName ? 'User\'s' : ''}}
+            Week 12 Picks
+        </td>
+    </tr>
+    <tr class="headerRow">
+        <td>Away Team</td>
+        <td></td>
+        <td>Home Team</td>
+        <td>Odds</td>
+        <td>Time</td>
+        <td>Bonus</td>
+    </tr>
+    <tr *ngFor="let team of awayTeams; let i = index">
+        <td class="{{pickData.picks[i] === 'away' ? 'selected' : ''}}">{{ team.name }}</td>
+        <td>at</td>
+        <td class="{{pickData.picks[i] === 'away' ? '' : 'selected'}}">{{ homeTeams[i].name }}</td>
+        <td class="teamWeight"> {{ team.conference }} </td>
+        <td class="teamWeight"> {{ homeTeams[i].conference }} </td>
+        <td class="teamWeight twoPoints" [hidden]="pickData.picks[pickData.picks.length - 2] != i">2 points</td>
+        <td class="teamWeight threePoints" [hidden]="pickData.picks[pickData.picks.length - 1] != i">3 points!!</td>
+    </tr>
+</div>
+<!-- <div id="noPickData" class="col-md-8 col-md-offset-2" [hidden]="!hasPickData">
+    No picks have been made yet!
+</div> -->

@@ -1,0 +1,43 @@
+.userName {
+    font-style: italic;
+    padding: 4px 0px;
+    color: darkblue;
+}
+
+td {
+    padding: 2px;
+}
+
+.headerRow {
+    font-size: 16px;
+}
+
+.headerRow td {
+    border-bottom: solid;
+}
+
+.teamWeight {
+    text-align: center;
+}
+
+.selected {
+    background-color: lightgreen;
+}
+
+.threePoints {
+    font-weight: bold;
+    color: green;
+}
+
+.twoPoints {
+    font-weight: bold;
+    color: darkorange;
+}
+
+#picksContainer {
+    margin-bottom: 20px;
+}
+
+#noPickData {
+    font-size: 24px;
+}

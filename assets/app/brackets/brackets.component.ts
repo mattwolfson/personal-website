@@ -11,25 +11,25 @@ import { Conference } from './conference.model';
 export class BracketsComponent implements OnInit {
     
         eastTeams: Team[] = [
-            new Team(1, 'Boston_Celtics.svg', 'nbaEast', 'seed-1 game-1 round-1', 'Boston Celtics'),
-            new Team(8, 'Chicago_Bulls.svg', 'nbaEast', 'seed-8 game-1 round-1', 'Chicago Bulls'),
-            new Team(4, 'Washington_Wizards.svg', 'nbaEast', 'seed-4 game-1 round-1', 'Washington Wizards'),
-            new Team(5, 'Atlanta_Hawks.svg', 'nbaEast', 'seed-5 game-1 round-1', 'Atlanta Hawks'),
-            new Team(2, 'Cleveland_Cavaliers.svg', 'nbaEast', 'seed-2 game-1 round-1', 'Cleveland Calaliers'),
-            new Team(7, 'Indiana_Pacers.svg', 'nbaEast', 'seed-7 game-1 round-1', 'Indiana Pacers'),
-            new Team(3, 'Houston_Rockets.svg', 'nbaEast', 'seed-8 game-1 round-1', 'Houston Rockets'),
-            new Team(6, 'Oklahoma_City_Thunder.gif', 'nbaEast', 'seed-8 game-1 round-1', 'Oklahoma City Thunder')
+            new Team(1, 'Boston_Celtics.svg', 'nbaEast', 'Boston Celtics'),
+            new Team(8, 'Chicago_Bulls.svg', 'nbaEast', 'Chicago Bulls'),
+            new Team(4, 'Washington_Wizards.svg', 'nbaEast', 'Washington Wizards'),
+            new Team(5, 'Atlanta_Hawks.svg', 'nbaEast','Atlanta Hawks'),
+            new Team(2, 'Cleveland_Cavaliers.svg', 'nbaEast', 'Cleveland Calaliers'),
+            new Team(7, 'Indiana_Pacers.svg', 'nbaEast', 'Indiana Pacers'),
+            new Team(3, 'Houston_Rockets.svg', 'nbaEast', 'Houston Rockets'),
+            new Team(6, 'Oklahoma_City_Thunder.gif', 'nbaEast', 'Oklahoma City Thunder')
         ];
     
         westTeams: Team[] = [
-            new Team(1, 'Golden_State_Warriors.svg', 'nbaWest', 'seed-1 game-1 round-1', 'Golden State Warriors'),
-            new Team(8, 'Portland_Trail_Blazers.svg', 'nbaWest', 'seed-8 game-1 round-1', 'Portland Trail Blazers'),
-            new Team(4, 'Clippers.svg', 'nbaWest', 'seed-4 game-1 round-1', 'Clippers'),
-            new Team(5, 'Utah_Jazz.svg', 'nbaWest', 'seed-5 game-1 round-1', 'Utah Jazz'),
-            new Team(2, 'San_Antonio_Spurs.svg', 'nbaWest', 'seed-2 game-1 round-1', 'San Antonio Spurs'),
-            new Team(7, 'Memphis_Grizzlies.svg', 'nbaWest', 'seed-7 game-1 round-1', 'Memphis Grizzlies'),
-            new Team(3, 'Houston_Rockets.svg', 'nbaWest', 'seed-8 game-1 round-1', 'Houston Rockets'),
-            new Team(6, 'Oklahoma_City_Thunder.gif', 'nbaWest', 'seed-8 game-1 round-1', 'Oklahoma City Thunder')
+            new Team(1, 'Golden_State_Warriors.svg', 'nbaWest', 'Golden State Warriors'),
+            new Team(8, 'Portland_Trail_Blazers.svg', 'nbaWest', 'Portland Trail Blazers'),
+            new Team(4, 'Clippers.svg', 'nbaWest', 'Clippers'),
+            new Team(5, 'Utah_Jazz.svg', 'nbaWest', 'Utah Jazz'),
+            new Team(2, 'San_Antonio_Spurs.svg', 'nbaWest', 'San Antonio Spurs'),
+            new Team(7, 'Memphis_Grizzlies.svg', 'nbaWest', 'Memphis Grizzlies'),
+            new Team(3, 'Houston_Rockets.svg', 'nbaWest', 'Houston Rockets'),
+            new Team(6, 'Oklahoma_City_Thunder.gif', 'nbaWest', 'Oklahoma City Thunder')
         ];
     
         nbaEast = new Conference('east', 'eastGroup', this.eastTeams, 'basketball', 'NBA');
@@ -37,7 +37,7 @@ export class BracketsComponent implements OnInit {
         conferences: Conference[] = [ this.nbaEast, this.nbaWest];
         blank = new Team(null, 'Solid_white.svg', 'nbaEast');
         blankSpotImg = require("../../img/bracket/nba/" + this.blank.logo);
-        totalRounds;
+        totalRounds: number;
         allTeamsPicked: Boolean = false;
     
       constructor() { }
@@ -49,7 +49,7 @@ export class BracketsComponent implements OnInit {
             return this.blankSpotImg;
         }
     
-        public advanceToNextRound(conferenceName, roundNumber, teamPosition, currentPositionId) {
+        public advanceToNextRound(conferenceName: string, roundNumber: number, teamPosition: number, currentPositionId: string) {
             const winningTeamPicture = this.getPictureFromTeamElementId(currentPositionId).getAttribute('src');
             const newId = this.findFutureGameId(currentPositionId);
             const winningPictureBox = this.getPictureFromTeamElementId(newId);
@@ -63,7 +63,7 @@ export class BracketsComponent implements OnInit {
             this.checkToUpdateSubmitButon();
         }
     
-        private findFutureGameId(currentPositionId) {
+        private findFutureGameId(currentPositionId: string) {
             const idValues = currentPositionId.split('-');
             const conferenceName = idValues[0];
             const roundNumber = Number(idValues[2]);
@@ -79,7 +79,7 @@ export class BracketsComponent implements OnInit {
             return newId;
         }
     
-        private clearLoserFromFutureGames(futureWinnerId, losingTeamId) {
+        private clearLoserFromFutureGames(futureWinnerId: string, losingTeamId: string) {
             const losingTeamPicture = this.getPictureFromTeamElementId(losingTeamId).getAttribute('src');
             if (losingTeamPicture !== this.blankSpotImg) {
                 while (futureWinnerId !== 'champion') {
@@ -95,7 +95,7 @@ export class BracketsComponent implements OnInit {
             }
         }
     
-        private getPictureFromTeamElementId(id) {
+        private getPictureFromTeamElementId(id: string) {
             const team = document.getElementById(id);
             for(let index in team.children) {
                 if (team.children[index].className === 'teamPicture') {
@@ -106,7 +106,7 @@ export class BracketsComponent implements OnInit {
     
     
       ngOnInit() {
-          const  verifyInput = function (e) {
+          const  verifyInput = function (e: any) {
             e = e || window.event;
             const keyChar = String.fromCharCode(e.keyCode),
                 input = e.target || e.srcElement;
@@ -119,7 +119,7 @@ export class BracketsComponent implements OnInit {
         };
         }
     
-      public checkForUnpickedTeams(enableAlerts) {
+      public checkForUnpickedTeams(enableAlerts: boolean) {
           var images = document.getElementsByTagName('img');
           var allTeamsPicked = true;
           var playoffTeams = [];

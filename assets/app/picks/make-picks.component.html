@@ -1,0 +1,63 @@
+<div class="col-md-8 col-md-offset-2">
+    <tr class="headerRow">
+        <td>Away Team</td>
+        <td></td>
+        <td>Home Team</td>
+        <td></td>
+        <td>Odds</td>
+        <td>Time</td>
+        <td>2 pts</td>
+        <td>3 pts</td>
+    </tr>
+    <tr *ngFor="let team of awayTeams; let i = index">
+        <td><label for="away-{{i}}" >{{ team.name }}</label></td>
+        <td>
+            <input 
+                    #awayElem
+                    id="away-{{i}}" 
+                    type="radio" 
+                    value="away" 
+                    name="{{i}}"
+                    (change)="onSelectionChange(awayElem.value, awayElem.name)">
+        </td>
+        <td>at <label for="home-{{i}}">{{ homeTeams[i].name }}</label></td>
+        <td>
+            <input 
+                    #homeElem
+                    id="home-{{i}}" 
+                    type="radio" 
+                    value="home" 
+                    name="{{i}}"
+                    (change)="onSelectionChange(homeElem.value, homeElem.name)">
+        </td>
+        <td class="teamWeight"> {{ team.conference }} </td>
+        <td class="teamWeight"> {{ homeTeams[i].conference }} </td>
+        <td class="teamWeight">
+            <input 
+                    #twoElem
+                    type="radio" 
+                    id="two-{{i}}"
+                    value="{{i}}"
+                    name="two-point-group"
+                    (change)="onSelectionChange(twoElem.value, twoElem.name)">
+        </td>
+        <td class="teamWeight">
+            <input 
+                    #threeElem
+                    type="radio" 
+                    id="three-{{i}}" 
+                    value="{{i}}"
+                    name="three-point-group"
+                    (change)="onSelectionChange(threeElem.value, threeElem.name)">
+        </td>
+    </tr>
+    <tr id="submitPicks">
+        <button 
+                class="btn btn-primary" 
+                type="submit"
+				[disabled]="!picksAreValid"
+                (click)="onSubmit()">
+            Submit
+        </button>
+    </tr>
+</div>

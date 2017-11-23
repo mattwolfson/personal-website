@@ -15,7 +15,7 @@ export class MemesComponent {
     topText: 'One Does Not Simply',
     bottomText: 'Eat One Tortilla Chip'
 };
-  onImageUpdate(newUrl) {
+  onImageUpdate(newUrl: string) {
     var img = new Image();
     img.onload = function(){
       var width = img.width
@@ -34,7 +34,7 @@ export class MemesComponent {
     document.getElementById("meme1").style.backgroundImage = "url("+newUrl+")";
   };
 
-  onResize(event) {
+  onResize(event: any) {
     var height = Number(document.getElementById("meme1").style.height.slice(0, -2));
     var width = Number(document.getElementById("meme1").style.width.slice(0, -2));
     console.log(height, width, document.getElementById('memeSectionWrapper').offsetWidth);
