@@ -22,8 +22,10 @@ export class ComparePicksComponent implements OnInit {
                     console.log(picks);
                     if (picks) {
                         this.allPicks = picks;
+                        console.log('has all picks')
                     } else {
                         this.hasPickData = false;
+                        console.log('no picks');
                     }
 				}
 			);
@@ -50,22 +52,22 @@ export class ComparePicksComponent implements OnInit {
     ];
 
     awayTeams: Team[] = [
-        new Team(1, 'Minnesota_Vikings', 'DET -3', 'Minnesota Vikings'),
-        new Team(1, 'Los_Angeles_Chargers', 'LAC -1', 'Los Angeles Chargers'),
-        new Team(1, 'New_York_Giants', 'WAS -7', 'New York Giants'),
-        new Team(1, 'Cleveland_Browns', 'CIN -8', 'Cleveland Browns'),
+        new Team(1, 'Minnesota_Vikings', 'DET +2.5', 'Minnesota Vikings'),
+        new Team(1, 'Los_Angeles_Chargers', 'LAC -1.5', 'Los Angeles Chargers'),
+        new Team(1, 'New_York_Giants', 'WAS -7.5', 'New York Giants'),
+        new Team(1, 'Cleveland_Browns', 'CIN -8.5', 'Cleveland Browns'),
         new Team(1, 'Chicago_Bears', 'PHI -13.5', 'Chicago Bears'),
         new Team(1, 'Miami_Dolphins', 'NE -16.5', 'Miami Dolphins'),
-        new Team(1, 'Buffalo_Bills', 'KC -10', 'Buffalo Bills'),
-        new Team(1, 'Tampa_Bay_Buccaneers', 'ATL -10', 'Tampa Bay Buccaneers'),
-        new Team(1, 'Carolina_Panthers', 'CAR -5', 'Carolina Panthers'),
-        new Team(1, 'Tenessee_Titans', 'TEN -3', 'Tenessee Titans'),
-        new Team(1, 'Seattle_Seahawks', 'SEA -6.5', 'Seattle Seahawks'),
+        new Team(1, 'Buffalo_Bills', 'KC -9.5', 'Buffalo Bills'),
+        new Team(1, 'Tampa_Bay_Buccaneers', 'ATL -8.5', 'Tampa Bay Buccaneers'),
+        new Team(1, 'Carolina_Panthers', 'CAR -4.5', 'Carolina Panthers'),
+        new Team(1, 'Tenessee_Titans', 'TEN -3.5', 'Tenessee Titans'),
+        new Team(1, 'Seattle_Seahawks', 'SEA -7.5', 'Seattle Seahawks'),
         new Team(1, 'New_Orleans_Saints', 'LAR -2.5', 'New Orleans Saints'),
-        new Team(1, 'Jacksonville_Jaguars', 'JAX -5', 'Jacksonville Jaguars'),
+        new Team(1, 'Jacksonville_Jaguars', 'JAX -4.5', 'Jacksonville Jaguars'),
         new Team(1, 'Denver_Broncos', 'OAK -4.5', 'Denver Broncos'),
-        new Team(1, 'Green_Bay_Packers', 'PIT -14', 'Green Bay Packers'),
-        new Team(1, 'Houston_Texans', 'BAL -7', 'Houston Texans')
+        new Team(1, 'Green_Bay_Packers', 'PIT -14.5', 'Green Bay Packers'),
+        new Team(1, 'Houston_Texans', 'BAL -7.5', 'Houston Texans')
     ];
 
     totalGames: number = this.awayTeams.length;

@@ -6,7 +6,8 @@ import { MakePicksComponent } from "./make-picks.component";
 const PICKS_ROUTES: Routes= [
 	{ path: '', redirectTo: 'compare', pathMatch: 'full'},
 	{ path: 'compare', component: ComparePicksComponent },
-	{ path: 'make', component: MakePicksComponent }
+	{ path: 'make', component: MakePicksComponent },
+	{ path: '**', component: ComparePicksComponent }
 ];
 
 export const picksRouting = RouterModule.forChild(PICKS_ROUTES);

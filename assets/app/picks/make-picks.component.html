@@ -56,7 +56,8 @@
                 class="btn btn-primary" 
                 type="submit"
 				[disabled]="!picksAreValid"
-                (click)="onSubmit()">
+                (click)="onSubmit()"
+                routerLink="/picks/compare">
             Submit
         </button>
     </tr>
