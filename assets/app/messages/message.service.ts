@@ -46,7 +46,7 @@ export class MessageService {
 				const messages = response.json().obj;
 				let transformedMessages: Message[] = [];
 				for (let message of messages) {
-					//TODO: Remove this specific message logic
+					//TODO: Remove this specific message logic since it removes week12 message picks in the try
 					try {
 						JSON.parse(message.content);
 					} catch(err) {
@@ -68,7 +68,7 @@ export class MessageService {
 			});
 	}
 
-	getPicks() {
+	getPicks12() {
 		return this.http.get('http://www.mattwolfson.com/message')
 			.map((response: Response) => {
 				const messages = response.json().obj;

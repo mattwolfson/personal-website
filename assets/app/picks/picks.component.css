@@ -10,10 +10,16 @@ td {
 
 .headerRow {
     font-size: 16px;
+    text-align: center;
 }
 
 .headerRow td {
     border-bottom: solid;
+}
+
+.footerRow td {
+    text-align: center;
+    border-top: solid;
 }
 
 .teamWeight {
@@ -40,4 +46,31 @@ td {
 
 #noPickData {
     font-size: 24px;
+}
+
+#submitPicks {
+    padding-top: 10px;
+}
+
+#selectedWeek {
+    background-color: #337ab7;
+    color: white;
+}
+
+.week {
+    cursor: pointer;
+    padding: 5px;
+    margin: 0px 2px;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+#weekSelectionContainer {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+#noPicksAlert {
+    font-style: italic;
+    margin-left: 7px;
 }

@@ -14,6 +14,7 @@ import { AuthService } from "./auth/auth.service";
 import { MemesComponent } from './memes/memes.component';
 import { FormsModule } from '@angular/forms';
 import { PicksComponent } from './picks/picks.component';
+import { PicksService } from './picks/picks.service';
 
 @NgModule({
     declarations: [
@@ -32,7 +33,7 @@ import { PicksComponent } from './picks/picks.component';
         HttpModule,
         MessageModule
 	],
-    providers: [AuthService, ErrorService],
+    providers: [AuthService, ErrorService, PicksService],
     bootstrap: [AppComponent]
 })
 export class AppModule {

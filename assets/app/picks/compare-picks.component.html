@@ -1,28 +1,64 @@
-<div id="picksContainer" class="col-md-8 col-md-offset-2"
-    *ngFor="let pickData of allPicks; let idx = index">
-    <tr>
-        <td class="userName">
+<div class="col-md-8 col-md-offset-2">
+    <div id="weekSelectionContainer">
+        <div *ngFor="let week of weeks; let i = index"
+            class="week"
+            id="{{selectedWeekIndex == i ? 'selectedWeek' : ''}}"
+            (click)="selectedWeekIndex = i; updatePickData()">
+        Week {{ week.number }}
+        </div>
+    </div>
+
+    <div id="picksContainer"
+        *ngFor="let pickData of currentPicks; let idx = index">
+        <div class="userName">
             {{pickData.firstName && !pickData.lastName ? pickData.firstName + '\'s' : ''}}
             {{pickData.firstName && pickData.lastName ? pickData.firstName + ' ' + pickData.lastName + 's' : ''}}
             {{!pickData.firstName ? 'User\'s' : ''}}
-            Week 12 Picks
-        </td>
-    </tr>
-    <tr class="headerRow">
-        <td>Away Team</td>
-        <td></td>
-        <td>Home Team</td>
-        <td>Odds</td>
-        <td>Time</td>
-        <td>Bonus</td>
-    </tr>
-    <tr *ngFor="let team of awayTeams; let i = index">
-        <td class="{{pickData.picks[i] === 'away' ? 'selected' : ''}}">{{ team.name }}</td>
-        <td>at</td>
-        <td class="{{pickData.picks[i] === 'away' ? '' : 'selected'}}">{{ homeTeams[i].name }}</td>
-        <td class="teamWeight"> {{ team.conference }} </td>
-        <td class="teamWeight"> {{ homeTeams[i].conference }} </td>
-        <td class="teamWeight twoPoints" [hidden]="pickData.picks[pickData.picks.length - 2] != i">2 points</td>
-        <td class="teamWeight threePoints" [hidden]="pickData.picks[pickData.picks.length - 1] != i">3 points!!</td>
-    </tr>
+            Week {{ weeks[selectedWeekIndex].number }} Picks
+        </div>
+        <tr class="headerRow">
+            <td>Away Team</td>
+            <td></td>
+            <td>Home Team</td>
+            <td>Odds</td>
+            <td>Time</td>
+            <td>Bonus</td>
+            <td>Win/Lose</td>
+            <td>Winning Pick</td>
+        </tr>
+        <tr *ngFor="let matchup of weeks[selectedWeekIndex].matchups; let i = index">
+            <td class="{{pickData.picks[i] === 'away' ? 'selected' : ''}}">{{ matchup.awayTeam.name }}</td>
+            <td>at</td>
+            <td class="{{pickData.picks[i] === 'away' ? '' : 'selected'}}">{{ matchup.homeTeam.name }}</td>
+            <td class="teamWeight">
+                {{ matchup.oddsForHome > 0 ? '+' : ''}}{{ matchup.oddsForHome }} 
+            </td>
+            <td class="teamWeight"> {{  matchup.time }} </td>
+            <td class="teamWeight twoPoints" [hidden]="pickData.picks[pickData.picks.length - 2] != i">2 points</td>
+            <td class="teamWeight threePoints" [hidden]="pickData.picks[pickData.picks.length - 1] != i">3 points!!</td>
+            <td [hidden]="pickData.picks[pickData.picks.length - 1] == i || pickData.picks[pickData.picks.length - 2] == i"></td>
+            <td  class="teamWeight">
+                {{ tallyPicks(pickData.picks[i], i,
+                pickData.picks[pickData.picks.length - 2] == i, 
+                pickData.picks[pickData.picks.length - 1] == i,
+                pickData.picks.length -1,
+                matchup) }}
+            </td>
+            <td class="teamWeight">{{ matchup.winner ? matchup.winner.name : '' }}</td>
+        </tr>
+        <tr class="footerRow">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="teamWeight">Total:</td>
+            <td class="teamWeight">{{ printFinalScore() }}</td>
+        </tr>
+    </div>
+    <div id="noPicksAlert">
+       <span [hidden]="currentPicks[0]">No picks have been made this week yet. Make yours in the 'Make Picks' tab</span>
+       <br><br>
+       NOTE: If you don't see your picks, try refreshing the page.
+    </div>
 </div>

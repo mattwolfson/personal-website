@@ -9,6 +9,7 @@ var mongoose = require('mongoose');
 var appRoutes = require('./routes/app');
 var messageRoutes = require('./routes/messages');
 var userRoutes = require('./routes/user');
+var picksRoutes = require('./routes/picks');
 
 var app = express();
 mongoose.connect('test-user:Gayfish13@ds151433.mlab.com:51433/wolfson-db');
@@ -34,6 +35,7 @@ app.use(function (req, res, next) {
 });
 
 app.use('/message', messageRoutes);
+app.use('/picks', picksRoutes);
 app.use('/user', userRoutes);
 app.use('/', appRoutes);
 

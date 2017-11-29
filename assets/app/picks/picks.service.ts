@@ -3,40 +3,69 @@ import { Http, Response, Headers } from "@angular/http";
 import { Injectable, EventEmitter } from "@angular/core";
 import 'rxjs/Rx';
 import { Observable } from 'rxjs';
+import { Picks } from './picks.model';
+import {Router} from '@angular/router';
 
-//TODO: Make functional (Currently using Message)
 @Injectable()
 export class PicksService {
-	// private messages: Message[] = [];
-	// messageIsEdit = new EventEmitter;
-	constructor(private http: Http, private errorService: ErrorService) {}
 
-	addPicks(picks: Array<any>) {
+	constructor(private http: Http, private errorService: ErrorService, private router: Router) {}
+
+	addPicks(picks: Picks) {
 		const body = JSON.stringify(picks);
 		console.log(picks, body);
 		const headers = new Headers({'Content-Type': 'application/json'});
 		const token = localStorage.getItem('token') 
 				? '?token=' + localStorage.getItem('token') 
 				: '';
-		console.log('pre add picks');
-		return this.http.post('http://localhost:27017/message' + token, body, {headers: headers})
+		return this.http.post('http://www.mattwolfson.com/picks' + token, body, {headers: headers})
 			.map((response: Response) => {
 				const result = response.json();
-				// const message = new Message(
-				// 	result.obj.content, 
-				// 	result.obj.user.firstName, 
-				// 	result.obj._id, 
-				// 	result.obj.user._id
-				// );
-				console.log(result);
-				// this.messages.push(message);
+				const picks = new Picks(
+					result.obj.sport,
+					result.obj.year,
+					result.obj.week,
+					result.obj.picks, 
+					result.obj.league
+				);
+                this.router.navigateByUrl('/picks/compare');
 				return result;
 			})
 			.catch((error: Response) => {
 				console.log('error', error);
+                if (error.status === 502) {
+					console.log('identified 502');
+					this.router.navigateByUrl('/picks/compare');
+				} else {
+					this.errorService.handleError(error.json());
+					return Observable.throw(error.json());
+				}
+			});
+			
+	}
+
+	getPicks(week?: number) {
+		return this.http.get('http://www.mattwolfson.com/picks')
+			.map((response: Response) => {
+				const picks = response.json().obj;
+				let transformedPicks: Picks[] = [];
+				for (let pick of picks) {
+					transformedPicks.push(new Picks(
+						pick.sport,
+						pick.year,
+						pick.week,
+						JSON.parse(pick.picks),
+						pick.league,
+						pick.user.firstName,
+						pick.user.lastName
+					));
+				}
+				return transformedPicks;
+			})
+			.catch((error: Response) => {
+				console.log(error);
 				this.errorService.handleError(error.json());
 				return Observable.throw(error.json());
 			});
-			
 	}
 }
