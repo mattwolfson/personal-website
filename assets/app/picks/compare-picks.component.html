@@ -30,9 +30,7 @@
             <td class="{{pickData.picks[i] === 'away' ? 'selected' : ''}}">{{ matchup.awayTeam.name }}</td>
             <td>at</td>
             <td class="{{pickData.picks[i] === 'away' ? '' : 'selected'}}">{{ matchup.homeTeam.name }}</td>
-            <td class="teamWeight">
-                {{ matchup.oddsForHome > 0 ? '+' : ''}}{{ matchup.oddsForHome }} 
-            </td>
+            <td class="teamWeight"> {{ matchup.oddsForHome > 0 ? '+' : ''}}{{ matchup.oddsForHome }} </td>
             <td class="teamWeight"> {{  matchup.time }} </td>
             <td class="teamWeight twoPoints" [hidden]="pickData.picks[pickData.picks.length - 2] != i">2 points</td>
             <td class="teamWeight threePoints" [hidden]="pickData.picks[pickData.picks.length - 1] != i">3 points!!</td>

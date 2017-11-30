@@ -60,44 +60,6 @@ export class ComparePicksComponent implements OnInit {
         }
     }
 
-    homeTeams: Team[] = [
-        new Team(1, 'Detriot_Lions', 'Th 12:30 pm', 'Detroit Lions'),
-        new Team(1, 'Dallas_Cowboys', 'Th 4:30 pm', 'Dallas Cowboys'),
-        new Team(1, 'Washington_Redskins', 'Th 8:30 pm', 'Washington Redskins'),
-        new Team(1, 'Cincinati_Bengals', 'S 1 pm', 'Cincinati Bengals'),
-        new Team(1, 'Philadelphia_Eagles', 'S 1 pm', 'Philadelphia Eagles'),
-        new Team(1, 'New_England_Patriots', 'S 1 pm', 'New England Patriots'),
-        new Team(1, 'Kansas_City_Cheifs', 'S 1 pm', 'Kansas City Cheifs'),
-        new Team(1, 'Atlanta_Falcons', 'S 1 pm', 'Atlanta Falcons'),
-        new Team(1, 'New_York_Jets', 'S 1 pm ', 'New York Jets'),
-        new Team(1, 'Indianapolis_Colts', 'S 1 pm', 'Indianapolis Colts'),
-        new Team(1, 'San_Fransisco_49ers', 'S 4:05 pm', 'San Francisco 49ers'),
-        new Team(1, 'Los_Angeles_Rams', 'S 4:25 pm', 'Los Angeles Rams'),
-        new Team(1, 'Arizona_Cardinals', 'S 4:25 pm', 'Arizona Cardinals'),
-        new Team(1, 'Oakland_Raiders', 'S 4:25 pm', 'Oakland Raiders'),
-        new Team(1, 'Pittsburgh_Steelers', 'S 8:30 pm', 'Pittsburgh Steelers'),
-        new Team(1, 'Baltimore_Ravens', 'M 8:30 pm', 'Baltimore Ravens')
-    ];
-
-    awayTeams: Team[] = [
-        new Team(1, 'Minnesota_Vikings', 'DET +2.5', 'Minnesota Vikings'),
-        new Team(1, 'Los_Angeles_Chargers', 'LAC -1.5', 'Los Angeles Chargers'),
-        new Team(1, 'New_York_Giants', 'WAS -7.5', 'New York Giants'),
-        new Team(1, 'Cleveland_Browns', 'CIN -8.5', 'Cleveland Browns'),
-        new Team(1, 'Chicago_Bears', 'PHI -13.5', 'Chicago Bears'),
-        new Team(1, 'Miami_Dolphins', 'NE -16.5', 'Miami Dolphins'),
-        new Team(1, 'Buffalo_Bills', 'KC -9.5', 'Buffalo Bills'),
-        new Team(1, 'Tampa_Bay_Buccaneers', 'ATL -8.5', 'Tampa Bay Buccaneers'),
-        new Team(1, 'Carolina_Panthers', 'CAR -4.5', 'Carolina Panthers'),
-        new Team(1, 'Tenessee_Titans', 'TEN -3.5', 'Tenessee Titans'),
-        new Team(1, 'Seattle_Seahawks', 'SEA -7.5', 'Seattle Seahawks'),
-        new Team(1, 'New_Orleans_Saints', 'LAR -2.5', 'New Orleans Saints'),
-        new Team(1, 'Jacksonville_Jaguars', 'JAX -4.5', 'Jacksonville Jaguars'),
-        new Team(1, 'Denver_Broncos', 'OAK -4.5', 'Denver Broncos'),
-        new Team(1, 'Green_Bay_Packers', 'PIT -14.5', 'Green Bay Packers'),
-        new Team(1, 'Houston_Texans', 'BAL -7.5', 'Houston Texans')
-    ];
-
     lions = new NflTeam('NFC', 'North', 'Detriot Lions', '', 6, 5);
     cowboys = new NflTeam('NFC', 'East', 'Dallas Cowboys', '', 5, 6);
     redskins = new NflTeam('NFC', 'East', 'Washington Redskins', '', 5, 6);
@@ -133,7 +95,7 @@ export class ComparePicksComponent implements OnInit {
     
     
     matchUps12: MatchUp[] = [
-        new MatchUp(this.lions, this.vikings, 12, 2017, 'Th 12:30pm', -2.5, this.lions),
+        new MatchUp(this.vikings, this.lions, 12, 2017, 'Th 12:30pm', 2.5, this.vikings),
         new MatchUp(this.chargers, this.cowboys, 12, 2017, 'Th 4:30 pm', 1.5, this.chargers),
         new MatchUp(this.giants, this.redskins, 12, 2017,  'Th 8:30 pm', -7.5, this.redskins),
         new MatchUp(this.browns, this.bengals, 12, 2017, 'S 1 pm', -8.5, this.bengals),
@@ -143,7 +105,7 @@ export class ComparePicksComponent implements OnInit {
         new MatchUp(this.bucs, this.falcons, 12, 2017, 'S 1 pm', -8.5, this.falcons),
         new MatchUp(this.panthers, this.jets, 12, 2017, 'S 1 pm ', 4.5, this.panthers),
         new MatchUp(this.titans, this.colts, 12, 2017, 'S 1 pm', 3.5, this.titans),
-        new MatchUp(this.seahawks, this.sanFran, 12, 2017, 'S 4:05 pm', -7.5, this.sanFran),
+        new MatchUp(this.seahawks, this.sanFran, 12, 2017, 'S 4:05 pm', -7.5, this.seahawks),
         new MatchUp(this.saints, this.rams, 12, 2017, 'S 4:25 pm', 2.5, this.rams),
         new MatchUp(this.jags, this.cardinals, 12, 2017, 'S 4:25 pm', 4.5, this.cardinals),
         new MatchUp(this.broncos, this.raiders, 12, 2017, 'S 4:25 pm', -4.5, this.raiders),
@@ -200,7 +162,7 @@ export class ComparePicksComponent implements OnInit {
         this.packers, this.texans
     ];
 
-    totalGames: number = this.awayTeams.length;
+    totalGames: number = this.matchUps13.length;
     finalPicks: Array<any> = new Array(this.totalGames + 2);
 
     userPickTally: number = 0;
