@@ -1,0 +1,10 @@
+{
+    "development": {
+        "url": "localhost:3000",
+        "database": "localhost:27017/node-angular"
+    },
+    "production": {
+        "url": "www.mattwolfson.com",
+        "database": "test-user:Gayfish13@ds151433.mlab.com:51433/wolfson-db"
+    }
+}

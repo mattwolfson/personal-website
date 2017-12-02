@@ -5,6 +5,7 @@ import 'rxjs/Rx';
 import { Observable } from 'rxjs';
 import { Picks } from './picks.model';
 import {Router} from '@angular/router';
+var config = require('./../../../config.json')[process.env.NODE_ENV || 'development'];
 
 @Injectable()
 export class PicksService {
@@ -18,7 +19,7 @@ export class PicksService {
 		const token = localStorage.getItem('token') 
 				? '?token=' + localStorage.getItem('token') 
 				: '';
-		return this.http.post('http://www.mattwolfson.com/picks' + token, body, {headers: headers})
+		return this.http.post('http://' + config.url + '/picks' + token, body, {headers: headers})
 			.map((response: Response) => {
 				const result = response.json();
 				const picks = new Picks(
@@ -45,7 +46,7 @@ export class PicksService {
 	}
 
 	getPicks(week?: number) {
-		return this.http.get('http://www.mattwolfson.com/picks')
+		return this.http.get('http://' + config.url + '/picks')
 			.map((response: Response) => {
 				const picks = response.json().obj;
 				let transformedPicks: Picks[] = [];

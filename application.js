@@ -10,10 +10,10 @@ var appRoutes = require('./routes/app');
 var messageRoutes = require('./routes/messages');
 var userRoutes = require('./routes/user');
 var picksRoutes = require('./routes/picks');
+var config = require('./config.json')[process.env.NODE_ENV || 'development'];
 
 var app = express();
-mongoose.connect('test-user:Gayfish13@ds151433.mlab.com:51433/wolfson-db');
-// mongoose.connect('localhost:27017/node-angular');
+mongoose.connect(config.database);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

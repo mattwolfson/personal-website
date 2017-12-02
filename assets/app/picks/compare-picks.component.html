@@ -27,7 +27,7 @@
             <td>Winning Pick</td>
         </tr>
         <tr *ngFor="let matchup of weeks[selectedWeekIndex].matchups; let i = index">
-            <td class="{{pickData.picks[i] === 'away' ? 'selected' : ''}}">{{ matchup.awayTeam.name }}</td>
+            <td class="{{pickData.picks[i] === 'away' ? 'selected' : ''}} firstCol">{{ matchup.awayTeam.name }}</td>
             <td>at</td>
             <td class="{{pickData.picks[i] === 'away' ? '' : 'selected'}}">{{ matchup.homeTeam.name }}</td>
             <td class="teamWeight"> {{ matchup.oddsForHome > 0 ? '+' : ''}}{{ matchup.oddsForHome }} </td>
@@ -35,14 +35,14 @@
             <td class="teamWeight twoPoints" [hidden]="pickData.picks[pickData.picks.length - 2] != i">2 points</td>
             <td class="teamWeight threePoints" [hidden]="pickData.picks[pickData.picks.length - 1] != i">3 points!!</td>
             <td [hidden]="pickData.picks[pickData.picks.length - 1] == i || pickData.picks[pickData.picks.length - 2] == i"></td>
-            <td  class="teamWeight">
+            <td  #winner id="winner-{{i}}-{{pickData.firstName}}" class="teamWeight">
                 {{ tallyPicks(pickData.picks[i], i,
                 pickData.picks[pickData.picks.length - 2] == i, 
                 pickData.picks[pickData.picks.length - 1] == i,
                 pickData.picks.length -1,
-                matchup) }}
+                matchup, winner.id) }}
             </td>
-            <td class="teamWeight">{{ matchup.winner ? matchup.winner.name : '' }}</td>
+            <td class="teamWeight lastCol">{{ matchup.winner ? matchup.winner.name : '' }}</td>
         </tr>
         <tr class="footerRow">
             <td></td>
