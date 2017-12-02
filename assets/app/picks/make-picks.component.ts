@@ -29,7 +29,7 @@ export class MakePicksComponent {
             );
     }
 
-    onSelectionChange(value: String, radioButtonName: String) {
+    onSelectionChange(value: String, radioButtonName: String, id?: any) {
         let index;
 
         if (radioButtonName === 'three-point-group') {
@@ -38,14 +38,13 @@ export class MakePicksComponent {
             index = this.totalGames;
         } else {
             index = Number(radioButtonName);
+            document.getElementById(id).parentElement.parentElement.className += ' winnerSelected';
         }
 
         this.finalPicks[index] = value;
 
-        if (!this.finalPicks.includes(undefined) &&
-            this.finalPicks[this.totalGames] !== this.finalPicks[this.totalGames + 1] ) {
-            this.picksAreValid = true;
-        }
+        this.picksAreValid = !this.finalPicks.includes(undefined) &&
+            this.finalPicks[this.totalGames] !== this.finalPicks[this.totalGames + 1];
     }
 
     lions = new NflTeam('NFC', 'North', 'Detriot Lions', '', 6, 5);

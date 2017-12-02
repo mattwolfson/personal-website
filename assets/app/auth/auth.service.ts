@@ -3,8 +3,8 @@ import { Injectable } from "@angular/core";
 import { Http, Headers, Response } from "@angular/http";
 import "rxjs/Rx";
 import { Observable } from "rxjs";
-
 import { User } from "./user.model";
+var config = require('./../../../config.json')[process.env.NODE_ENV || 'development'];
 
 @Injectable()
 export class AuthService {
@@ -13,7 +13,7 @@ export class AuthService {
 	signup(user: User) {
 		const body = JSON.stringify(user);
 		const headers = new Headers({'Content-Type': 'application/json'});
-		return this.http.post('http://www.mattwolfson.com/user', body, {headers: headers})
+		return this.http.post('http://' + config.url + '/user', body, {headers: headers})
 			.map((response: Response) => response.json())
 			.catch((error: Response) => {
 				this.errorService.handleError(error.json());
@@ -24,7 +24,7 @@ export class AuthService {
 	signin(user: User) {
 		const body = JSON.stringify(user);
 		const headers = new Headers({'Content-Type': 'application/json'});
-		return this.http.post('http://www.mattwolfson.com/user/signin', body, {headers: headers})
+		return this.http.post('http://' + config.url + '/user/signin', body, {headers: headers})
 			.map((response: Response) => response.json())
 			.catch((error: Response) => {
 				this.errorService.handleError(error.json());

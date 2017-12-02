@@ -17,7 +17,8 @@
         <td>2 pts</td>
         <td>3 pts</td>
     </tr>
-    <tr *ngFor="let matchup of weeks[selectedWeekIndex].matchups; let i = index">
+    <tr *ngFor="let matchup of weeks[selectedWeekIndex].matchups; let i = index"
+        class="{{i % 2 == 0 ? 'greyRow' : ''}}">
         <td><label for="away-{{i}}" >{{ matchup.awayTeam.name }}</label></td>
         <td>
             <input 
@@ -26,7 +27,7 @@
                     type="radio" 
                     value="away" 
                     name="{{i}}"
-                    (change)="onSelectionChange(awayElem.value, awayElem.name)">
+                    (change)="onSelectionChange(awayElem.value, awayElem.name, awayElem.id)">
         </td>
         <td>at <label for="home-{{i}}">{{ matchup.homeTeam.name }}</label></td>
         <td>
@@ -36,7 +37,7 @@
                     type="radio" 
                     value="home" 
                     name="{{i}}"
-                    (change)="onSelectionChange(homeElem.value, homeElem.name)">
+                    (change)="onSelectionChange(homeElem.value, homeElem.name, homeElem.id)">
         </td>
         <td class="teamWeight"> 
             {{ matchup.oddsForHome > 0 ? '+' : ''}}{{ matchup.oddsForHome }} 
@@ -59,6 +60,11 @@
                     value="{{i}}"
                     name="three-point-group"
                     (change)="onSelectionChange(threeElem.value, threeElem.name)">
+        </td>
+        <td class="chooseWinnerNotice">
+            <div>
+                Pick a winner for this game
+            </div>
         </td>
     </tr>
     <tr id="submitPicks">

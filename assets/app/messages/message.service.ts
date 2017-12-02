@@ -3,8 +3,8 @@ import { Http, Response, Headers } from "@angular/http";
 import { Injectable, EventEmitter } from "@angular/core";
 import 'rxjs/Rx';
 import { Observable } from 'rxjs';
-
 import { Message } from "./message.model";
+var config = require('./../../../config.json')[process.env.NODE_ENV || 'development'];
 
 @Injectable()
 export class MessageService {
@@ -19,7 +19,7 @@ export class MessageService {
 				? '?token=' + localStorage.getItem('token') 
 				: '';
 		console.log('pre add message');
-		return this.http.post('http://www.mattwolfson.com/message' + token, body, {headers: headers})
+		return this.http.post('http://' + config.url + '/message' + token, body, {headers: headers})
 			.map((response: Response) => {
 				const result = response.json();
 				const message = new Message(
@@ -41,7 +41,7 @@ export class MessageService {
 	}
 
 	getMessages() {
-		return this.http.get('http://www.mattwolfson.com/message')
+		return this.http.get('http://' + config.url + '/message')
 			.map((response: Response) => {
 				const messages = response.json().obj;
 				let transformedMessages: Message[] = [];
@@ -69,7 +69,7 @@ export class MessageService {
 	}
 
 	getPicks12() {
-		return this.http.get('http://www.mattwolfson.com/message')
+		return this.http.get('http://' + config.url + '/message')
 			.map((response: Response) => {
 				const messages = response.json().obj;
 				let transformedPicks = [];
@@ -104,7 +104,7 @@ export class MessageService {
 		const token = localStorage.getItem('token') 
 			? '?token=' + localStorage.getItem('token') 
 			: '';
-		return this.http.patch('http://www.mattwolfson.com/message/' + message.messageId + token, body, {headers: headers})
+		return this.http.patch('http://' + config.url + '/message/' + message.messageId + token, body, {headers: headers})
 			.map((response: Response) => response.json())
 			.catch((error: Response) => {
 				this.errorService.handleError(error.json());
@@ -117,7 +117,7 @@ export class MessageService {
 		const token = localStorage.getItem('token') 
 			? '?token=' + localStorage.getItem('token') 
 			: '';
-		return this.http.delete('http://www.mattwolfson.com/message/' + message.messageId + token)
+		return this.http.delete('http://' + config.url + '/message/' + message.messageId + token)
 			.map((response: Response) => response.json())
 			.catch((error: Response) => {
 				this.errorService.handleError(error.json());

@@ -35,6 +35,7 @@ export class ComparePicksComponent implements OnInit {
                     }
 				}
             );
+        //Get all other picks
         this.picksService.getPicks()
             .subscribe(
                 (picks) => {
@@ -166,7 +167,7 @@ export class ComparePicksComponent implements OnInit {
     finalPicks: Array<any> = new Array(this.totalGames + 2);
 
     userPickTally: number = 0;
-    public tallyPicks(pick: string, index: number, twoPoint: boolean, threePoint: boolean, lastIndex: number, currentMatchUp: MatchUp) {
+    public tallyPicks(pick: string, index: number, twoPoint: boolean, threePoint: boolean, lastIndex: number, currentMatchUp: MatchUp, id: string) {
         let pointsToWin: number = 1;
         if (twoPoint) {
             pointsToWin = 2;
@@ -175,9 +176,11 @@ export class ComparePicksComponent implements OnInit {
         }
 
         if (currentMatchUp.awayTeam === currentMatchUp.winner && pick === "away") {
+            document.getElementById(id).parentElement.className += ' winningPick';
             this.userPickTally = this.userPickTally + pointsToWin;
             return 'X';
         } else if (currentMatchUp.homeTeam === currentMatchUp.winner && pick === "home") {
+            document.getElementById(id).parentElement.className += ' winningPick';
             this.userPickTally = this.userPickTally + pointsToWin;
             return 'X';
         }
