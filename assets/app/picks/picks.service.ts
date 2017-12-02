@@ -29,14 +29,12 @@ export class PicksService {
 					result.obj.picks, 
 					result.obj.league
 				);
-                this.router.navigateByUrl('/picks/compare');
 				return result;
 			})
 			.catch((error: Response) => {
 				console.log('error', error);
                 if (error.status === 502) {
 					console.log('identified 502');
-					this.router.navigateByUrl('/picks/compare');
 				} else {
 					this.errorService.handleError(error.json());
 					return Observable.throw(error.json());

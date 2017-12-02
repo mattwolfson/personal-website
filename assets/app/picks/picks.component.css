@@ -90,14 +90,14 @@ td {
 }
 
 .winningPick td{
-    border-bottom: solid green;
+    border-bottom: outset;
     border-width: 3px;
 }
 
 .winningPick .firstCol {
-    border-left: solid green;
+    border-left: outset;
 }
 
 .winningPick .lastCol {
-    border-right: solid green;
+    border-right: outset;
 }

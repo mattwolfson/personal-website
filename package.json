@@ -8,10 +8,10 @@
   },
   "scripts": {
     "start": "node ./bin/www",
-    "start:prod": "set NODE_ENV=production&& node ./bin/www",
+    "prod": "set NODE_ENV=production&& node ./bin/www",
     "build:deleteOld": "del-cli public/js/app && webpack --config webpack.config.dev.js --progress --profile --watch",
     "build": "webpack --config webpack.config.dev.js --progress --profile --watch",
-    "build:prod": "del-cli public/js/app && ngc-w -p tsconfig.aot.json --webpack webpack.config.prod.js  && webpack --config webpack.config.prod.js --progress --profile --bail && del-cli public/js/app/**/*.js public/js/app/**/*.js.map !public/js/app/bundle.js !public/js/app/*.chunk.js assets/app/**/*.ngfactory.ts assets/app/**/*.ngsummary.ts assets/app/**/*.shim.ts assets/app/**/*.ngsummary.json assets/app/**/*.ngstyle.ts"
+    "build:prod": "del-cli public/js/app && ngc-w -p tsconfig.aot.json --webpack webpack.config.prod.js  && webpack --config webpack.config.prod.js --progress --profile --bail && del-cli public/js/app/**/*.js public/js/app/**/*.js.map !public/js/app/bundle.js !public/js/app/*.chunk.js assets/app/**/*.ngfactory.ts assets/app/**/*.ngsummary.ts assets/app/**/*.shim.ts assets/app/**/*.ngsummary.json assets/app/**/*.ngstyle.ts &&set temp_name = call prod_builds/getBuildName.bat && 7z a -tzip prod_builds/%temp_name%.zip application.js config.json package.json bin models public routes views"
   },
   "dependencies": {
     "@angular/animations": "^4.0.0",
