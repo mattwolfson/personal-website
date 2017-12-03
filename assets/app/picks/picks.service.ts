@@ -5,7 +5,7 @@ import 'rxjs/Rx';
 import { Observable } from 'rxjs';
 import { Picks } from './picks.model';
 import {Router} from '@angular/router';
-var config = require('./../../../config.json')[process.env.NODE_ENV || 'development'];
+var config = require('./../../../config.json')[process.env.NODE_ENV || 'production'];
 
 @Injectable()
 export class PicksService {

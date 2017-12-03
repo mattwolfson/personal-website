@@ -4,7 +4,7 @@ import { Injectable, EventEmitter } from "@angular/core";
 import 'rxjs/Rx';
 import { Observable } from 'rxjs';
 import { Message } from "./message.model";
-var config = require('./../../../config.json')[process.env.NODE_ENV || 'development'];
+var config = require('./../../../config.json')[process.env.NODE_ENV || 'production'];
 
 @Injectable()
 export class MessageService {

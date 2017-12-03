@@ -1,9 +1,11 @@
 @echo off
+setlocal enabledelayedexpansion
 
 For /f "tokens=2-4 delims=/ " %%a in ('date /t') do (
-	set year=%%c
-	set mydate=%year:~2,3%.%%a.%%b
+	set fulldate=%%c.%%a.%%b
 )
+
+set mydate=%fulldate:~2,10%
 
 dir prod_builds /s/b | findstr %mydate% | find /c /v "fakenews" > tmp.txt
 set /p deployment_total=<tmp.txt

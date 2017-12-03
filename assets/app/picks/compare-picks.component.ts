@@ -115,7 +115,7 @@ export class ComparePicksComponent implements OnInit {
     ];
 
     matchUps13: MatchUp[] = [
-        new MatchUp(this.redskins, this.cowboys, 13, 2017, 'Th 8:30', -1.5),
+        new MatchUp(this.redskins, this.cowboys, 13, 2017, 'Th 8:30', -1.5, this.cowboys),
         new MatchUp(this.vikings, this.falcons, 13, 2017, 'S 1:00', -2.5),
         new MatchUp(this.lions, this.ravens, 13, 2017, 'S 1:00', -3.5),
         new MatchUp(this.patriots, this.bills, 13, 2017, 'S 1:00', 8.5),

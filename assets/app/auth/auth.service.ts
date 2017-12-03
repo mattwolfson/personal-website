@@ -4,7 +4,7 @@ import { Http, Headers, Response } from "@angular/http";
 import "rxjs/Rx";
 import { Observable } from "rxjs";
 import { User } from "./user.model";
-var config = require('./../../../config.json')[process.env.NODE_ENV || 'development'];
+var config = require('./../../../config.json')[process.env.NODE_ENV || 'production'];
 
 @Injectable()
 export class AuthService {
