@@ -6,6 +6,7 @@
 
 td {
     padding: 2px;
+    text-align: center;
 }
 
 .headerRow {
@@ -22,12 +23,11 @@ td {
     border-top: solid;
 }
 
-.teamWeight {
-    text-align: center;
-}
-
 .selected {
     background-color: lightgreen;
+    font-weight: bold;
+    color: green;
+    border: outset;
 }
 
 .threePoints {
@@ -79,25 +79,60 @@ td {
     background-color: lightgray;
 }
 
+.greyRow td {
+    border-top: solid 3px lightgray;
+    border-bottom: solid 3px lightgray;
+}
+.whiteRow td {
+    border-top: solid 3px white;
+    border-bottom: solid 3px white;
+}
+
 .chooseWinnerNotice {
     font-style: italic;
     background: white;
-    position: relative
+    position: relative;
 }
 
-.winnerSelected .chooseWinnerNotice div{
+.greyRow .chooseWinnerNotice {
+    border-color: white;
+}
+
+.homeSelected .chooseWinnerNotice div{
     display: none;
 }
 
-.winningPick td{
-    border-bottom: outset;
-    border-width: 3px;
+.awaySelected .chooseWinnerNotice div{
+    display: none;
 }
 
-.winningPick .firstCol {
-    border-left: outset;
+.homeSelected .home {
+    background-color: lightgreen;
+    border: outset;
 }
 
-.winningPick .lastCol {
-    border-right: outset;
+.awaySelected .away {
+    background-color: lightgreen;
+    border: outset;
+}
+
+.losingPick .selected {
+    background-color: indianred;
+    color: white;
+}
+
+.winningPick {
+    background-color: lightgreen;
+}
+
+.firstCol {
+    padding-left: 4px;
+}
+
+.lastCol {
+    padding-right: 4px;
+}
+
+label {
+    margin-bottom: 0px;
 }

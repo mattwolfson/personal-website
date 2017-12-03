@@ -12,7 +12,7 @@
         *ngFor="let pickData of currentPicks; let idx = index">
         <div class="userName">
             {{pickData.firstName && !pickData.lastName ? pickData.firstName + '\'s' : ''}}
-            {{pickData.firstName && pickData.lastName ? pickData.firstName + ' ' + pickData.lastName + 's' : ''}}
+            {{pickData.firstName && pickData.lastName ? pickData.firstName + ' ' + pickData.lastName + '\'s' : ''}}
             {{!pickData.firstName ? 'User\'s' : ''}}
             Week {{ weeks[selectedWeekIndex].number }} Picks
         </div>
@@ -30,10 +30,10 @@
             <td class="{{pickData.picks[i] === 'away' ? 'selected' : ''}} firstCol">{{ matchup.awayTeam.name }}</td>
             <td>at</td>
             <td class="{{pickData.picks[i] === 'away' ? '' : 'selected'}}">{{ matchup.homeTeam.name }}</td>
-            <td class="teamWeight"> {{ matchup.oddsForHome > 0 ? '+' : ''}}{{ matchup.oddsForHome }} </td>
-            <td class="teamWeight"> {{  matchup.time }} </td>
-            <td class="teamWeight twoPoints" [hidden]="pickData.picks[pickData.picks.length - 2] != i">2 points</td>
-            <td class="teamWeight threePoints" [hidden]="pickData.picks[pickData.picks.length - 1] != i">3 points!!</td>
+            <td> {{ matchup.oddsForHome > 0 ? '+' : ''}}{{ matchup.oddsForHome }} </td>
+            <td> {{  matchup.time }} </td>
+            <td class="twoPoints" [hidden]="pickData.picks[pickData.picks.length - 2] != i">2 points</td>
+            <td class="threePoints" [hidden]="pickData.picks[pickData.picks.length - 1] != i">3 points!!</td>
             <td [hidden]="pickData.picks[pickData.picks.length - 1] == i || pickData.picks[pickData.picks.length - 2] == i"></td>
             <td  #winner id="winner-{{i}}-{{pickData.firstName}}" class="teamWeight">
                 {{ tallyPicks(pickData.picks[i], i,
@@ -42,7 +42,7 @@
                 pickData.picks.length -1,
                 matchup, winner.id) }}
             </td>
-            <td class="teamWeight lastCol">{{ matchup.winner ? matchup.winner.name : '' }}</td>
+            <td class="lastCol">{{ matchup.winner ? matchup.winner.name : '' }}</td>
         </tr>
         <tr class="footerRow">
             <td></td>
@@ -50,8 +50,8 @@
             <td></td>
             <td></td>
             <td></td>
-            <td class="teamWeight">Total:</td>
-            <td class="teamWeight">{{ printFinalScore() }}</td>
+            <td>Total:</td>
+            <td>{{ printFinalScore() }}</td>
         </tr>
     </div>
     <div id="noPicksAlert">

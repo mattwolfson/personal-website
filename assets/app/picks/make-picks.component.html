@@ -18,8 +18,8 @@
         <td>3 pts</td>
     </tr>
     <tr *ngFor="let matchup of weeks[selectedWeekIndex].matchups; let i = index"
-        class="{{i % 2 == 0 ? 'greyRow' : ''}}">
-        <td><label for="away-{{i}}" >{{ matchup.awayTeam.name }}</label></td>
+        class="{{i % 2 == 0 ? 'greyRow' : 'whiteRow'}}">
+        <td class="away"><label for="away-{{i}}" >{{ matchup.awayTeam.name }}</label></td>
         <td>
             <input 
                     #awayElem
@@ -29,7 +29,7 @@
                     name="{{i}}"
                     (change)="onSelectionChange(awayElem.value, awayElem.name, awayElem.id)">
         </td>
-        <td>at <label for="home-{{i}}">{{ matchup.homeTeam.name }}</label></td>
+        <td class="home">at <label for="home-{{i}}">{{ matchup.homeTeam.name }}</label></td>
         <td>
             <input 
                     #homeElem

@@ -31,6 +31,10 @@ export class MakePicksComponent {
 
     onSelectionChange(value: String, radioButtonName: String, id?: any) {
         let index;
+        const HOME_SELECTED = 'homeSelected';
+        const AWAY_SELECTED = 'awaySelected';
+        const AWAY_BUTTON_VALUE = 'away';
+        const HOME_BUTTON_VALUE = 'home';
 
         if (radioButtonName === 'three-point-group') {
             index = this.totalGames + 1;
@@ -38,7 +42,14 @@ export class MakePicksComponent {
             index = this.totalGames;
         } else {
             index = Number(radioButtonName);
-            document.getElementById(id).parentElement.parentElement.className += ' winnerSelected';
+            const gameRow: HTMLElement = document.getElementById(id).parentElement.parentElement;
+            if (value === HOME_BUTTON_VALUE) {
+                gameRow.classList.add(HOME_SELECTED);
+                gameRow.classList.remove(AWAY_SELECTED);
+            } else {
+                gameRow.classList.add(AWAY_SELECTED);
+                gameRow.classList.remove(HOME_SELECTED);
+            }
         }
 
         this.finalPicks[index] = value;

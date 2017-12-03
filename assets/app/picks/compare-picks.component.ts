@@ -168,19 +168,26 @@ export class ComparePicksComponent implements OnInit {
 
     userPickTally: number = 0;
     public tallyPicks(pick: string, index: number, twoPoint: boolean, threePoint: boolean, lastIndex: number, currentMatchUp: MatchUp, id: string) {
+        const WINNING_CLASS = ' winningPick';
+        const LOSING_CLASS = ' losingPick';
         let pointsToWin: number = 1;
+
         if (twoPoint) {
             pointsToWin = 2;
         } else if (threePoint) {
             pointsToWin = 3;
         }
 
-        if (currentMatchUp.awayTeam === currentMatchUp.winner && pick === "away") {
-            document.getElementById(id).parentElement.className += ' winningPick';
-            this.userPickTally = this.userPickTally + pointsToWin;
-            return 'X';
-        } else if (currentMatchUp.homeTeam === currentMatchUp.winner && pick === "home") {
-            document.getElementById(id).parentElement.className += ' winningPick';
+        let resultClass: string;
+        if (currentMatchUp.awayTeam === currentMatchUp.winner) {
+            resultClass = pick === "away" ? WINNING_CLASS : LOSING_CLASS;
+            document.getElementById(id).parentElement.className += resultClass;
+        } else if (currentMatchUp.homeTeam === currentMatchUp.winner) {
+            resultClass = pick === "home" ? WINNING_CLASS : LOSING_CLASS;
+            document.getElementById(id).parentElement.className += resultClass;
+        }
+
+        if (resultClass === WINNING_CLASS) {
             this.userPickTally = this.userPickTally + pointsToWin;
             return 'X';
         }

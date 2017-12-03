@@ -15,4 +15,7 @@ set /a current_version=%deployment_total% + 1
 set new_name=mattwolfson-site-%mydate%.%current_version%
 
 set temp_name=%new_name%
+
+7z a -tzip prod_builds/%temp_name%.zip application.js config.json package.json bin models public routes views
+
 echo %temp_name%
