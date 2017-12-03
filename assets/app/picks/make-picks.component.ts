@@ -119,7 +119,7 @@ export class MakePicksComponent {
         new MatchUp(this.bucs, this.packers, 13, 2017, 'S 1:00', -.5),
         new MatchUp(this.colts, this.jags, 13, 2017, 'S 1:00', -8.5),
         new MatchUp(this.broncos, this.dolphins, 13, 2017, 'S 1:00', .5),
-        new MatchUp(this.panthers, this.saints, 13, 2017, 'S 1:00', -3.5),
+        new MatchUp(this.panthers, this.saints, 13, 2017, 'S 4:25', -3.5),
         new MatchUp(this.cheifs, this.jets, 13, 2017, 'S 1:00', 3.5),
         new MatchUp(this.texans, this.titans, 13, 2017, 'S 1:00', -7.5),
         new MatchUp(this.browns, this.chargers, 13, 2017, 'S 4:05', -13.5),
