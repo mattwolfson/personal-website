@@ -14,7 +14,6 @@ export class PicksService {
 
 	addPicks(picks: Picks) {
 		const body = JSON.stringify(picks);
-		console.log(picks, body);
 		const headers = new Headers({'Content-Type': 'application/json'});
 		const token = localStorage.getItem('token') 
 				? '?token=' + localStorage.getItem('token') 
@@ -44,12 +43,15 @@ export class PicksService {
 	}
 
 	getPicks(week?: number) {
-		return this.http.get('http://' + config.url + '/picks')
+		const token = localStorage.getItem('token') 
+				? '?token=' + localStorage.getItem('token') 
+				: '';
+		return this.http.get('http://' + config.url + '/picks' + token)
 			.map((response: Response) => {
 				const picks = response.json().obj;
-				let transformedPicks: Picks[] = [];
+				let transformedPicks: Array<Object> = [];
 				for (let pick of picks) {
-					transformedPicks.push(new Picks(
+					const currentPick = new Picks(
 						pick.sport,
 						pick.year,
 						pick.week,
@@ -57,8 +59,36 @@ export class PicksService {
 						pick.league,
 						pick.user.firstName,
 						pick.user.lastName
-					));
+					);
+					const isCurrentUser = pick.user._id === localStorage.getItem('userId');
+					transformedPicks.push({currentPick, isCurrentUser});
 				}
+				return transformedPicks;
+			})
+			.catch((error: Response) => {
+				console.log(error);
+				this.errorService.handleError(error.json());
+				return Observable.throw(error.json());
+			});
+	}
+	
+	getPicks12() {
+		return this.http.get('http://' + config.url + '/message')
+			.map((response: Response) => {
+				const messages = response.json().obj;
+				let transformedPicks = [];
+				for (let message of messages) {
+					//TODO: Remove this specific message logic
+					try {
+						const firstName = message.user ? message.user.firstName : null;
+						const lastName =  message.user ? message.user.lastName : null;
+						const picks = JSON.parse(message.content);
+						transformedPicks.push({firstName, lastName, picks});
+					} catch(err) {
+						//Means this is not a pick object
+					}
+				}
+				console.log('finished getting picks');
 				return transformedPicks;
 			})
 			.catch((error: Response) => {

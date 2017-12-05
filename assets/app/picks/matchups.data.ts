@@ -1,104 +1,7 @@
-import { PicksService } from './picks.service';
 import { MatchUp } from './../models/matchup.model';
-import { Message } from './../messages/message.model';
-import { MessageService } from './../messages/message.service';
-import { Component, OnInit } from "@angular/core";
-import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { Team } from "../brackets/team.model";
-import { NflTeam } from '../models/nflTeam.model';
-import { Picks } from './picks.model';
+import { NflTeam } from "../models/nflTeam.model";
 
-@Component({
-    selector: 'app-make-picks',
-    templateUrl: './make-picks.component.html',
-    styleUrls: ['./picks.component.css']
-})
-
-export class MakePicksComponent {
-    picksAreValid: Boolean = false;
-    currentPicks: Array<any> = []
-    week12Picks: Array<any> = []
-    allPicks: Array<any> = []
-    userName: string = '';
-
-	constructor(private picksService: PicksService) {}
-
-    ngOnInit() {
-        //Get picks for week 12
-		this.picksService.getPicks12()
-			.subscribe(
-				(picks) => {
-                    if (picks) {
-                        this.week12Picks = picks;
-                    }
-				}
-            );
-        //Get all other picks
-        this.picksService.getPicks()
-            .subscribe(
-                (picks) => {
-                    if (picks) {
-                        picks;
-                        this.getUsersPreviousPicks(picks)
-                    } else {
-                        console.log('no picks from Picks object');
-                    }
-                }
-            );
-    }
-
-    getUsersPreviousPicks(allPicks: Array<any>) {
-        for(let userPickData of allPicks) {
-            if(userPickData.isCurrentUser) {
-                let firstName = userPickData.currentPick.firstName;
-                if (firstName) {
-                    this.userName += 'You are signed in as ' + firstName;
-                    let lastName = userPickData.currentPick.lastName;
-                    if (lastName) { this.userName += ' ' + lastName };
-                }
-            }
-        }
-    }
-
-	onSubmit() {
-        const picks = new Picks('NFL', 2017, this.weeks[this.selectedWeekIndex].number, 
-            JSON.stringify(this.finalPicks), 'Family');
-        this.picksService.addPicks(picks)
-            .subscribe(
-                data => console.log(data),
-                error => console.error(error)
-            );
-    }
-
-    onSelectionChange(value: String, radioButtonName: String, id?: any) {
-        let index;
-        const HOME_SELECTED = 'homeSelected';
-        const AWAY_SELECTED = 'awaySelected';
-        const AWAY_BUTTON_VALUE = 'away';
-        const HOME_BUTTON_VALUE = 'home';
-
-        if (radioButtonName === 'three-point-group') {
-            index = this.totalGames + 1;
-        } else if (radioButtonName === 'two-point-group') {
-            index = this.totalGames;
-        } else {
-            index = Number(radioButtonName);
-            const gameRow: HTMLElement = document.getElementById(id).parentElement.parentElement;
-            if (value === HOME_BUTTON_VALUE) {
-                gameRow.classList.add(HOME_SELECTED);
-                gameRow.classList.remove(AWAY_SELECTED);
-            } else {
-                gameRow.classList.add(AWAY_SELECTED);
-                gameRow.classList.remove(HOME_SELECTED);
-            }
-        }
-
-        this.finalPicks[index] = value;
-
-        this.picksAreValid = !this.finalPicks.includes(undefined) &&
-            this.finalPicks[this.totalGames] !== this.finalPicks[this.totalGames + 1];
-    }
-
+export class matchups {
     lions = new NflTeam('NFC', 'North', 'Detriot Lions', '', 6, 5);
     cowboys = new NflTeam('NFC', 'East', 'Dallas Cowboys', '', 5, 6);
     redskins = new NflTeam('NFC', 'East', 'Washington Redskins', '', 5, 6);
@@ -131,8 +34,8 @@ export class MakePicksComponent {
     broncos = new NflTeam('AFC', 'West', 'Denver Broncos', '', 3, 8);
     packers = new NflTeam('NFC', 'North', 'Green Bay Packers', '', 5, 6);
     texans = new NflTeam('AFC', 'South', 'Houston Texans', '', 4, 6);
-    
-    matchUps12: MatchUp[] = [
+        
+    public matchUps12: MatchUp[] = [
         new MatchUp(this.vikings, this.lions, 12, 2017, 'Th 12:30pm', 2.5),
         new MatchUp(this.chargers, this.cowboys, 12, 2017, 'Th 4:30 pm', 1.5),
         new MatchUp(this.giants, this.redskins, 12, 2017,  'Th 8:30 pm', -7.5),
@@ -151,7 +54,7 @@ export class MakePicksComponent {
         new MatchUp(this.texans, this.ravens, 12, 2017, 'M 8:30 pm', -7.5)
     ];
 
-    matchUps13: MatchUp[] = [
+    public matchUps13: MatchUp[] = [
         new MatchUp(this.redskins, this.cowboys, 13, 2017, 'Th 8:30', -1.5),
         new MatchUp(this.vikings, this.falcons, 13, 2017, 'S 1:00', -2.5),
         new MatchUp(this.lions, this.ravens, 13, 2017, 'S 1:00', -3.5),
@@ -169,42 +72,12 @@ export class MakePicksComponent {
         new MatchUp(this.eagles, this.seahawks, 13, 2017, 'S 8:30', 4.5),
         new MatchUp(this.steelers, this.bengals, 13, 2017, 'M 8:30', 6.5)
     ];
-
-    matchUps14: MatchUp[] = [
-        new MatchUp(this.saints, this.falcons, 14, 2017, 'Th 8:25', 1.5),
-        new MatchUp(this.sanFran, this.texans, 14, 2017, 'S 1:00', 2.5),
-        new MatchUp(this.raiders, this.cheifs, 14, 2017, 'S 1:00', -3.5),
-        new MatchUp(this.colts, this.bills, 14, 2017, 'S 1:00', 0),
-        new MatchUp(this.vikings, this.panthers, 14, 2017, 'S 1:00', 3),
-        new MatchUp(this.bears, this.bengals, 14, 2017, 'S 1:00', -6),
-        new MatchUp(this.packers, this.browns, 14, 2017, 'S 1:00', 3.5),
-        new MatchUp(this.lions, this.bucs, 14, 2017, 'S 1:00', 0),
-        new MatchUp(this.cowboys, this.giants, 14, 2017, 'S 1:00', 6),
-        new MatchUp(this.redskins, this.chargers, 14, 2017, 'S 4:05', -6.5),
-        new MatchUp(this.titans, this.cardinals, 14, 2017, 'S 4:05', 3),
-        new MatchUp(this.jets, this.broncos, 14, 2017, 'S 1:00', .5),
-        new MatchUp(this.seahawks, this.jags, 14, 2017, '4:25', -3),
-        new MatchUp(this.eagles, this.rams, 14, 2017, '4:25', -2),
-        new MatchUp(this.ravens, this.steelers, 14, 2017, 'S 8:30', -7),
-        new MatchUp(this.patriots, this.dolphins, 14, 2017, 'M 8:30', 11)
-    ];
-
-
-    weeks = [
-    {
-        number: 12,
-        matchups: this.matchUps12
-    }, {
-        number: 13,
-        matchups: this.matchUps13 
-    }, {
-        number: 14,
-        matchups: this.matchUps14 
-    }];
-
-    selectedWeekIndex = this.weeks.length - 1;
-    totalGames: number = this.matchUps13.length;
-    finalPicks: Array<any> = new Array(this.totalGames + 2);
+    public getMatchUps() {
+        return [
+            this.matchUps12,
+            this.matchUps13,
+        ]
+    }
 
     nflTeams: NflTeam[] = [
         this.lions, this.cowboys,

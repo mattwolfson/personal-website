@@ -4,6 +4,8 @@ import { MessageService } from './../messages/message.service';
 import { Component, OnInit } from '@angular/core';
 import { NflTeam } from '../models/nflTeam.model';
 import { PicksService } from './picks.service';
+import { Picks } from './picks.model';
+import { MakePicksComponent } from './make-picks.component';
 
 @Component({
     selector: 'app-compare-picks',
@@ -13,7 +15,7 @@ import { PicksService } from './picks.service';
 
 export class ComparePicksComponent implements OnInit {
     
-    constructor(private messageService: MessageService, private picksService: PicksService) {}
+    constructor(private picksService: PicksService) {}
 
     currentPicks: Array<any> = []
     week12Picks: Array<any> = []
@@ -22,16 +24,14 @@ export class ComparePicksComponent implements OnInit {
     
 	ngOnInit() {
         //Get picks for week 12
-		this.messageService.getPicks12()
+		this.picksService.getPicks12()
 			.subscribe(
 				(picks) => {
                     console.log(picks);
                     if (picks) {
                         this.week12Picks = picks;
-                        console.log('has week12 picks');
                     } else {
                         this.hasPickData = false;
-                        console.log('no picks');
                     }
 				}
             );
@@ -53,11 +53,17 @@ export class ComparePicksComponent implements OnInit {
     }
 
     public updatePickData() {
-        const newWeek = this.weeks[this.selectedWeekIndex].number;
-        if (newWeek === 12) {
+        const selectedWeek = this.weeks[this.selectedWeekIndex].number;
+        if (selectedWeek === 12) {
             this.currentPicks = this.week12Picks;
         } else {
-            this.currentPicks = this.allPicks;
+            let currentPicksArray: Picks[] = [];
+            for(let pick of this.allPicks) {
+                if (selectedWeek === Number(pick.currentPick.week)){
+                    currentPicksArray.push(pick.currentPick);
+                }
+            }
+            this.currentPicks = currentPicksArray;
         }
     }
 
@@ -123,14 +129,33 @@ export class ComparePicksComponent implements OnInit {
         new MatchUp(this.bucs, this.packers, 13, 2017, 'S 1:00', -.5, this.packers),
         new MatchUp(this.colts, this.jags, 13, 2017, 'S 1:00', -8.5, this.jags),
         new MatchUp(this.broncos, this.dolphins, 13, 2017, 'S 1:00', .5, this.dolphins),
-        new MatchUp(this.panthers, this.saints, 13, 2017, 'S 4:25', -3.5),
+        new MatchUp(this.panthers, this.saints, 13, 2017, 'S 4:25', -3.5, this.saints),
         new MatchUp(this.cheifs, this.jets, 13, 2017, 'S 1:00', 3.5, this.jets),
         new MatchUp(this.texans, this.titans, 13, 2017, 'S 1:00', -7.5, this.titans),
-        new MatchUp(this.browns, this.chargers, 13, 2017, 'S 4:05', -13.5),
-        new MatchUp(this.rams, this.cardinals, 13, 2017, 'S 4:25', 6.5),
-        new MatchUp(this.giants, this.raiders, 13, 2017, 'S 4:25', -7.5),
+        new MatchUp(this.browns, this.chargers, 13, 2017, 'S 4:05', -13.5, this.browns),
+        new MatchUp(this.rams, this.cardinals, 13, 2017, 'S 4:25', 6.5, this.rams),
+        new MatchUp(this.giants, this.raiders, 13, 2017, 'S 4:25', -7.5, this.giants),
         new MatchUp(this.eagles, this.seahawks, 13, 2017, 'S 8:30', 4.5),
         new MatchUp(this.steelers, this.bengals, 13, 2017, 'M 8:30', 6.5)
+    ];
+    
+    matchUps14: MatchUp[] = [
+        new MatchUp(this.saints, this.falcons, 14, 2017, 'Th 8:25', 1.5),
+        new MatchUp(this.sanFran, this.texans, 14, 2017, 'S 1:00', 2.5),
+        new MatchUp(this.raiders, this.cheifs, 14, 2017, 'S 1:00', -3.5),
+        new MatchUp(this.colts, this.bills, 14, 2017, 'S 1:00', 0),
+        new MatchUp(this.vikings, this.panthers, 14, 2017, 'S 1:00', 3),
+        new MatchUp(this.bears, this.bengals, 14, 2017, 'S 1:00', -6),
+        new MatchUp(this.packers, this.browns, 14, 2017, 'S 1:00', 3.5),
+        new MatchUp(this.lions, this.bucs, 14, 2017, 'S 1:00', 0),
+        new MatchUp(this.cowboys, this.giants, 14, 2017, 'S 1:00', 6),
+        new MatchUp(this.redskins, this.chargers, 14, 2017, 'S 4:05', -6.5),
+        new MatchUp(this.titans, this.cardinals, 14, 2017, 'S 4:05', 3),
+        new MatchUp(this.jets, this.broncos, 14, 2017, 'S 1:00', .5),
+        new MatchUp(this.seahawks, this.jags, 14, 2017, '4:25', -3),
+        new MatchUp(this.eagles, this.rams, 14, 2017, '4:25', -2),
+        new MatchUp(this.ravens, this.steelers, 14, 2017, 'S 8:30', -7),
+        new MatchUp(this.patriots, this.dolphins, 14, 2017, 'M 8:30', 11)
     ];
 
     weeks = [
@@ -140,6 +165,9 @@ export class ComparePicksComponent implements OnInit {
     }, {
         number: 13,
         matchups: this.matchUps13 
+    }, {
+        number: 14,
+        matchups: this.matchUps14
     }];
 
     selectedWeekIndex = this.weeks.length - 1;

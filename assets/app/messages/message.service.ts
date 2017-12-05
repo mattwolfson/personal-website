@@ -68,32 +68,6 @@ export class MessageService {
 			});
 	}
 
-	getPicks12() {
-		return this.http.get('http://' + config.url + '/message')
-			.map((response: Response) => {
-				const messages = response.json().obj;
-				let transformedPicks = [];
-				for (let message of messages) {
-					//TODO: Remove this specific message logic
-					try {
-						const firstName = message.user ? message.user.firstName : null;
-						const lastName =  message.user ? message.user.lastName : null;
-						const picks = JSON.parse(message.content);
-						transformedPicks.push({firstName, lastName, picks});
-					} catch(err) {
-						//Means this is not a pick object
-					}
-				}
-				console.log('finished getting picks');
-				return transformedPicks;
-			})
-			.catch((error: Response) => {
-				console.log(error);
-				this.errorService.handleError(error.json());
-				return Observable.throw(error.json());
-			});
-	}
-
 	editMessage(message: Message) {
 		this.messageIsEdit.emit(message);
 	}
