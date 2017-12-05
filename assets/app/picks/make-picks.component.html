@@ -5,11 +5,11 @@
         'You are not currently signed in, so picks can\'t be submitted. Please go to the Auth tab to sign in'}}
     </div>
     <div id="weekSelectionContainer">
-        <div *ngFor="let week of weeks; let i = index"
+        <div *ngFor="let matchUp of allMatchUps; let i = index"
             class="week"
             id="{{selectedWeekIndex == i ? 'selectedWeek' : ''}}"
             (click)="selectedWeekIndex = i">
-        Week {{ week.number }}
+        Week {{ matchUp.number }}
         </div>
     </div>
     <tr class="headerRow">
@@ -22,7 +22,7 @@
         <td>2 pts</td>
         <td>3 pts</td>
     </tr>
-    <tr *ngFor="let matchup of weeks[selectedWeekIndex].matchups; let i = index"
+    <tr *ngFor="let matchup of allMatchUps[selectedWeekIndex].matchups; let i = index"
         class="{{i % 2 == 0 ? 'greyRow' : 'whiteRow'}}">
         <td class="away"><label for="away-{{i}}" >{{ matchup.awayTeam.name }}</label></td>
         <td>

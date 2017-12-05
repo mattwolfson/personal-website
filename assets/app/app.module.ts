@@ -1,3 +1,4 @@
+import { MatchUps } from './picks/matchups.data';
 import { BracketsComponent } from './brackets/brackets.component';
 import { MessageModule } from './messages/message.module';
 import { ErrorService } from './errors/error.service';
@@ -33,7 +34,7 @@ import { PicksService } from './picks/picks.service';
         HttpModule,
         MessageModule
 	],
-    providers: [AuthService, ErrorService, PicksService],
+    providers: [AuthService, ErrorService, PicksService, MatchUps],
     bootstrap: [AppComponent]
 })
 export class AppModule {

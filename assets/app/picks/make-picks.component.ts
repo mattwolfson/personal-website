@@ -1,3 +1,4 @@
+import { MatchUps } from './matchups.data';
 import { PicksService } from './picks.service';
 import { MatchUp } from './../models/matchup.model';
 import { Message } from './../messages/message.model';
@@ -15,13 +16,18 @@ import { Picks } from './picks.model';
 })
 
 export class MakePicksComponent {
+
+    constructor(private picksService: PicksService, private matchups: MatchUps) {}
+
     picksAreValid: Boolean = false;
     currentPicks: Array<any> = []
     week12Picks: Array<any> = []
     allPicks: Array<any> = []
     userName: string = '';
-
-	constructor(private picksService: PicksService) {}
+    allMatchUps: Array<any> = this.matchups.getMatchUps();
+    selectedWeekIndex = this.allMatchUps.length - 1;
+    totalGames: number = this.allMatchUps.length;
+    finalPicks: Array<any> = new Array(this.totalGames + 2);
 
     ngOnInit() {
         //Get picks for week 12
@@ -38,7 +44,6 @@ export class MakePicksComponent {
             .subscribe(
                 (picks) => {
                     if (picks) {
-                        picks;
                         this.getUsersPreviousPicks(picks)
                     } else {
                         console.log('no picks from Picks object');
@@ -61,7 +66,7 @@ export class MakePicksComponent {
     }
 
 	onSubmit() {
-        const picks = new Picks('NFL', 2017, this.weeks[this.selectedWeekIndex].number, 
+        const picks = new Picks('NFL', 2017, this.allMatchUps[this.selectedWeekIndex].number, 
             JSON.stringify(this.finalPicks), 'Family');
         this.picksService.addPicks(picks)
             .subscribe(
@@ -98,130 +103,4 @@ export class MakePicksComponent {
         this.picksAreValid = !this.finalPicks.includes(undefined) &&
             this.finalPicks[this.totalGames] !== this.finalPicks[this.totalGames + 1];
     }
-
-    lions = new NflTeam('NFC', 'North', 'Detriot Lions', '', 6, 5);
-    cowboys = new NflTeam('NFC', 'East', 'Dallas Cowboys', '', 5, 6);
-    redskins = new NflTeam('NFC', 'East', 'Washington Redskins', '', 5, 6);
-    bengals = new NflTeam('AFC', 'North', 'Cincinati Bengals', '', 5, 6);
-    eagles = new NflTeam('NFC', 'East', 'Philadelphia Eagles', '', 10, 1);
-    patriots = new NflTeam('AFC', 'East', 'New England Patriots', '', 9, 2);
-    cheifs = new NflTeam('AFC', 'West', 'Kansas City Cheifs', '', 6, 5);
-    falcons = new NflTeam('NFC', 'South', 'Atlanta Falcons', '', 7, 4);
-    jets = new NflTeam('AFC', 'East', 'New York Jets', '', 4, 7);
-    colts = new NflTeam('AFC', 'East', 'Indianapolis Colts', '', 3, 8);
-    sanFran = new NflTeam('NFC', 'West', 'San Fransisco 49ers', '', 1, 10);
-    rams = new NflTeam('NFC', 'West', 'Los Angeles Rams', '', 8, 3);
-    cardinals = new NflTeam('NFC', 'West', 'Arizona Cardinals', '', 5, 6);
-    raiders = new NflTeam('AFC', 'West', 'Oakland Raiders', '', 5, 6);
-    steelers = new NflTeam('NFC', 'North', 'Pittsburgh Steelers', '', 9, 2);
-    ravens = new NflTeam('AFC', 'North', 'Baltimore Ravens', '', 5, 5);
-    vikings = new NflTeam('NFC', 'North', 'Minnesota Vikings', '', 9, 2);
-    chargers = new NflTeam('AFC', 'West', 'Los Angeles Chargers', '', 5, 6);
-    giants = new NflTeam('NFC', 'East', 'New York Giants', '', 2, 9);
-    browns = new NflTeam('NFC', 'North', 'Cleveland Browns', '', 0, 11);
-    bears = new NflTeam('NFC', 'North', 'Chicago Bears', '', 3, 8);
-    dolphins = new NflTeam('AFC', 'East', 'Miami Dolphins', '', 4, 7);
-    bills = new NflTeam('AFC', 'East', 'Buffalo Bills', '', 6, 5);
-    bucs = new NflTeam('NFC', 'South', 'Tampa Bay Buccaneers', '', 4, 7);
-    panthers = new NflTeam('NFC', 'South', 'Carolina Panthers', '', 8, 3);
-    titans = new NflTeam('AFC', 'South', 'Tenessee Titans', '', 7, 4);
-    seahawks = new NflTeam('NFC', 'West', 'Seattle Seahawks', '', 7, 4);
-    saints = new NflTeam('NFC', 'South', 'New Orleans Saints', '', 8, 3);
-    jags = new NflTeam('AFC', 'South', 'Jacksonville Jaguars', '', 7, 4);
-    broncos = new NflTeam('AFC', 'West', 'Denver Broncos', '', 3, 8);
-    packers = new NflTeam('NFC', 'North', 'Green Bay Packers', '', 5, 6);
-    texans = new NflTeam('AFC', 'South', 'Houston Texans', '', 4, 6);
-    
-    matchUps12: MatchUp[] = [
-        new MatchUp(this.vikings, this.lions, 12, 2017, 'Th 12:30pm', 2.5),
-        new MatchUp(this.chargers, this.cowboys, 12, 2017, 'Th 4:30 pm', 1.5),
-        new MatchUp(this.giants, this.redskins, 12, 2017,  'Th 8:30 pm', -7.5),
-        new MatchUp(this.browns, this.bengals, 12, 2017, 'S 1 pm', -8.5),
-        new MatchUp(this.bears, this.eagles, 12, 2017, 'S 1 pm', -13.5),
-        new MatchUp(this.dolphins, this.patriots, 12, 2017, 'S 1 pm', -16.5),
-        new MatchUp(this.bills, this.cheifs, 12, 2017, 'S 1 pm', -9.5),
-        new MatchUp(this.bucs, this.falcons, 12, 2017, 'S 1 pm', -8.5),
-        new MatchUp(this.panthers, this.jets, 12, 2017, 'S 1 pm ', 4.5),
-        new MatchUp(this.titans, this.colts, 12, 2017, 'S 1 pm', 3.5),
-        new MatchUp(this.seahawks, this.sanFran, 12, 2017, 'S 4:05 pm', -7.5),
-        new MatchUp(this.saints, this.rams, 12, 2017, 'S 4:25 pm', 2.5),
-        new MatchUp(this.jags, this.cardinals, 12, 2017, 'S 4:25 pm', 4.5),
-        new MatchUp(this.broncos, this.raiders, 12, 2017, 'S 4:25 pm', -4.5),
-        new MatchUp(this.packers, this.steelers, 12, 2017, 'S 8:30 pm', -14.5),
-        new MatchUp(this.texans, this.ravens, 12, 2017, 'M 8:30 pm', -7.5)
-    ];
-
-    matchUps13: MatchUp[] = [
-        new MatchUp(this.redskins, this.cowboys, 13, 2017, 'Th 8:30', -1.5),
-        new MatchUp(this.vikings, this.falcons, 13, 2017, 'S 1:00', -2.5),
-        new MatchUp(this.lions, this.ravens, 13, 2017, 'S 1:00', -3.5),
-        new MatchUp(this.patriots, this.bills, 13, 2017, 'S 1:00', 8.5),
-        new MatchUp(this.sanFran, this.bears, 13, 2017, 'S 1:00', -4.5),
-        new MatchUp(this.bucs, this.packers, 13, 2017, 'S 1:00', -.5),
-        new MatchUp(this.colts, this.jags, 13, 2017, 'S 1:00', -8.5),
-        new MatchUp(this.broncos, this.dolphins, 13, 2017, 'S 1:00', .5),
-        new MatchUp(this.panthers, this.saints, 13, 2017, 'S 4:25', -3.5),
-        new MatchUp(this.cheifs, this.jets, 13, 2017, 'S 1:00', 3.5),
-        new MatchUp(this.texans, this.titans, 13, 2017, 'S 1:00', -7.5),
-        new MatchUp(this.browns, this.chargers, 13, 2017, 'S 4:05', -13.5),
-        new MatchUp(this.rams, this.cardinals, 13, 2017, 'S 4:25', 6.5),
-        new MatchUp(this.giants, this.raiders, 13, 2017, 'S 4:25', -7.5),
-        new MatchUp(this.eagles, this.seahawks, 13, 2017, 'S 8:30', 4.5),
-        new MatchUp(this.steelers, this.bengals, 13, 2017, 'M 8:30', 6.5)
-    ];
-
-    matchUps14: MatchUp[] = [
-        new MatchUp(this.saints, this.falcons, 14, 2017, 'Th 8:25', 1.5),
-        new MatchUp(this.sanFran, this.texans, 14, 2017, 'S 1:00', 2.5),
-        new MatchUp(this.raiders, this.cheifs, 14, 2017, 'S 1:00', -3.5),
-        new MatchUp(this.colts, this.bills, 14, 2017, 'S 1:00', 0),
-        new MatchUp(this.vikings, this.panthers, 14, 2017, 'S 1:00', 3),
-        new MatchUp(this.bears, this.bengals, 14, 2017, 'S 1:00', -6),
-        new MatchUp(this.packers, this.browns, 14, 2017, 'S 1:00', 3.5),
-        new MatchUp(this.lions, this.bucs, 14, 2017, 'S 1:00', 0),
-        new MatchUp(this.cowboys, this.giants, 14, 2017, 'S 1:00', 6),
-        new MatchUp(this.redskins, this.chargers, 14, 2017, 'S 4:05', -6.5),
-        new MatchUp(this.titans, this.cardinals, 14, 2017, 'S 4:05', 3),
-        new MatchUp(this.jets, this.broncos, 14, 2017, 'S 1:00', .5),
-        new MatchUp(this.seahawks, this.jags, 14, 2017, '4:25', -3),
-        new MatchUp(this.eagles, this.rams, 14, 2017, '4:25', -2),
-        new MatchUp(this.ravens, this.steelers, 14, 2017, 'S 8:30', -7),
-        new MatchUp(this.patriots, this.dolphins, 14, 2017, 'M 8:30', 11)
-    ];
-
-
-    weeks = [
-    {
-        number: 12,
-        matchups: this.matchUps12
-    }, {
-        number: 13,
-        matchups: this.matchUps13 
-    }, {
-        number: 14,
-        matchups: this.matchUps14 
-    }];
-
-    selectedWeekIndex = this.weeks.length - 1;
-    totalGames: number = this.matchUps13.length;
-    finalPicks: Array<any> = new Array(this.totalGames + 2);
-
-    nflTeams: NflTeam[] = [
-        this.lions, this.cowboys,
-        this.redskins, this.bengals,
-        this.eagles, this.patriots,
-        this.cheifs, this.falcons,
-        this.jets, this.colts,
-        this.sanFran, this.rams,
-        this.cardinals, this.raiders,
-        this.steelers, this.ravens,
-        this.vikings, this.chargers,
-        this.giants, this.browns,
-        this.bears, this.dolphins,
-        this.bills, this.bucs,
-        this.panthers, this.titans,
-        this.seahawks, this.saints,
-        this.jags, this.broncos,
-        this.packers, this.texans
-    ];
 }

@@ -1,6 +1,6 @@
 <div class="col-md-8 col-md-offset-2">
     <div id="weekSelectionContainer">
-        <div *ngFor="let week of weeks; let i = index"
+        <div *ngFor="let week of allMatchUps; let i = index"
             class="week"
             id="{{selectedWeekIndex == i ? 'selectedWeek' : ''}}"
             (click)="selectedWeekIndex = i; updatePickData()">
@@ -9,12 +9,12 @@
     </div>
 
     <div id="picksContainer"
-        *ngFor="let pickData of currentPicks; let idx = index">
+        *ngFor="let pickData of currentPicks">
         <div class="userName">
             {{pickData.firstName && !pickData.lastName ? pickData.firstName + '\'s' : ''}}
             {{pickData.firstName && pickData.lastName ? pickData.firstName + ' ' + pickData.lastName + '\'s' : ''}}
             {{!pickData.firstName ? 'User\'s' : ''}}
-            Week {{ weeks[selectedWeekIndex].number }} Picks
+            Week {{ allMatchUps[selectedWeekIndex].number }} Picks
         </div>
         <tr class="headerRow">
             <td>Away Team</td>
@@ -26,7 +26,7 @@
             <td>Win/Lose</td>
             <td>Winning Pick</td>
         </tr>
-        <tr *ngFor="let matchup of weeks[selectedWeekIndex].matchups; let i = index">
+        <tr *ngFor="let matchup of allMatchUps[selectedWeekIndex].matchups; let i = index">
             <td class="{{pickData.picks[i] === 'away' ? 'selected' : ''}} firstCol">{{ matchup.awayTeam.name }}</td>
             <td>at</td>
             <td class="{{pickData.picks[i] === 'away' ? '' : 'selected'}}">{{ matchup.homeTeam.name }}</td>
