@@ -1,5 +1,6 @@
 var path = require('path');
 
+var webpack = require('webpack');
 var webpackMerge = require('webpack-merge');
 var commonConfig = require('./webpack.config.common.js');
 
@@ -26,5 +27,12 @@ module.exports = webpackMerge(commonConfig, {
             }
         ]
 
-    }
+    },
+    plugins: [
+      new webpack.DefinePlugin({
+        'process.env': {
+          'NODE_ENV': '"development"'
+        }
+      })
+    ]
 });

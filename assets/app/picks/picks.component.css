@@ -49,7 +49,7 @@ td {
 }
 
 #submitPicks {
-    padding-top: 10px;
+    margin-top: 10px;
 }
 
 #selectedWeek {
@@ -80,29 +80,29 @@ td {
 }
 
 .greyRow td {
-    border-top: solid 3px lightgray;
-    border-bottom: solid 3px lightgray;
+    border: solid 3px lightgray;
 }
 .whiteRow td {
-    border-top: solid 3px white;
-    border-bottom: solid 3px white;
+    border: solid 3px white;
 }
 
 .chooseWinnerNotice {
     font-style: italic;
-    background: white;
-    position: relative;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    background-color: white;
 }
 
 .greyRow .chooseWinnerNotice {
     border-color: white;
 }
 
-.homeSelected .chooseWinnerNotice div{
+.homeSelected .chooseWinnerNotice {
     display: none;
 }
 
-.awaySelected .chooseWinnerNotice div{
+.awaySelected .chooseWinnerNotice {
     display: none;
 }
 
@@ -111,9 +111,22 @@ td {
     border: outset;
 }
 
+.home {
+    min-width: 190px;
+}
+
+.away {
+    min-width: 160px;
+}
+
 .awaySelected .away {
     background-color: lightgreen;
     border: outset;
+}
+
+#makePicks .away:hover, #makePicks .home:hover, #makePicks .teamWeight:hover {
+    color: green;
+    border-color: green;
 }
 
 .losingPick .selected {
@@ -141,4 +154,16 @@ label {
     margin-left: 5px;
     margin-bottom: 10px;
     font-size: 16px;
+}
+
+.pointHeader {
+    min-width: 40px;
+}
+
+.oddsHeader {
+    min-width: 45px;
+}
+
+.timeHeader {
+    min-width: 60px
 }

@@ -33,7 +33,7 @@ export class PicksService {
 			.catch((error: Response) => {
 				console.log('error', error);
                 if (error.status === 502) {
-					console.log('identified 502');
+					console.log('identified and suppressed 502');
 				} else {
 					this.errorService.handleError(error.json());
 					return Observable.throw(error.json());

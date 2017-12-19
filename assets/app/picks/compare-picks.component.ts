@@ -23,7 +23,7 @@ export class ComparePicksComponent implements OnInit {
     allPicks: Array<any> = []
     hasPickData: Boolean = true;
     allMatchUps: Array<any> = this.matchUps.getMatchUps();
-    selectedWeekIndex = this.allMatchUps.length - 2;
+    selectedWeekIndex = this.allMatchUps.length - 1;
     
 	ngOnInit() {
         //Get picks for week 12

@@ -1,4 +1,4 @@
-<div class="col-md-8 col-md-offset-2">
+<div class="col-md-8 col-md-offset-2" id="makePicks">
     <div class="signIn">
         {{userName != '' ? 
         userName :
@@ -17,10 +17,10 @@
         <td></td>
         <td>Home Team</td>
         <td></td>
-        <td>Odds</td>
-        <td>Time</td>
-        <td>2 pts</td>
-        <td>3 pts</td>
+        <td class="oddsHeader">Odds</td>
+        <td class="timeHeader">Time</td>
+        <td class="pointHeader">2 pts</td>
+        <td class="pointHeader">3 pts</td>
     </tr>
     <tr *ngFor="let matchup of allMatchUps[selectedWeekIndex].matchups; let i = index"
         class="{{i % 2 == 0 ? 'greyRow' : 'whiteRow'}}">
@@ -44,10 +44,10 @@
                     name="{{i}}"
                     (change)="onSelectionChange(homeElem.value, homeElem.name, homeElem.id)">
         </td>
-        <td class="teamWeight"> 
+        <td> 
             {{ matchup.oddsForHome > 0 ? '+' : ''}}{{ matchup.oddsForHome }} 
         </td>
-        <td class="teamWeight"> {{ matchup.time }} </td>
+        <td> {{ matchup.time }} </td>
         <td class="teamWeight">
             <input 
                     #twoElem
@@ -67,19 +67,15 @@
                     (change)="onSelectionChange(threeElem.value, threeElem.name)">
         </td>
         <td class="chooseWinnerNotice">
-            <div>
-                Pick a winner for this game
-            </div>
+            Pick a winner for this game
         </td>
     </tr>
-    <tr id="submitPicks">
-        <button 
+    <button id="submitPicks"
                 class="btn btn-primary" 
                 type="submit"
                 (click)="onSubmit()"
 				[disabled]="!picksAreValid"
                 routerLink="/picks/compare">
             Submit
-        </button>
-    </tr>
+    </button>
 </div>

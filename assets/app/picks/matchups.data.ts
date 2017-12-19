@@ -77,23 +77,43 @@ export class MatchUps {
     ];
     
     matchUps14: MatchUp[] = [
-        new MatchUp(this.saints, this.falcons, 14, 2017, 'Th 8:25', 1.5),
-        new MatchUp(this.sanFran, this.texans, 14, 2017, 'S 1:00', 2.5),
-        new MatchUp(this.raiders, this.cheifs, 14, 2017, 'S 1:00', -3.5),
-        new MatchUp(this.colts, this.bills, 14, 2017, 'S 1:00', 0),
-        new MatchUp(this.vikings, this.panthers, 14, 2017, 'S 1:00', 3),
-        new MatchUp(this.bears, this.bengals, 14, 2017, 'S 1:00', -6),
-        new MatchUp(this.packers, this.browns, 14, 2017, 'S 1:00', 3.5),
-        new MatchUp(this.lions, this.bucs, 14, 2017, 'S 1:00', 0),
-        new MatchUp(this.cowboys, this.giants, 14, 2017, 'S 1:00', 6),
-        new MatchUp(this.redskins, this.chargers, 14, 2017, 'S 4:05', -6.5),
-        new MatchUp(this.titans, this.cardinals, 14, 2017, 'S 4:05', 3),
-        new MatchUp(this.jets, this.broncos, 14, 2017, 'S 1:00', .5),
-        new MatchUp(this.seahawks, this.jags, 14, 2017, '4:25', -3),
-        new MatchUp(this.eagles, this.rams, 14, 2017, '4:25', -2),
-        new MatchUp(this.ravens, this.steelers, 14, 2017, 'S 8:30', -7),
-        new MatchUp(this.patriots, this.dolphins, 14, 2017, 'M 8:30', 11)
+        new MatchUp(this.saints, this.falcons, 14, 2017, 'Th 8:25', -1.5, this.falcons),
+        new MatchUp(this.sanFran, this.texans, 14, 2017, 'S 1:00', -1.5, this.sanFran),
+        new MatchUp(this.raiders, this.cheifs, 14, 2017, 'S 1:00', -4.5, this.cheifs),
+        new MatchUp(this.colts, this.bills, 14, 2017, 'S 1:00', -6.5, this.colts),
+        new MatchUp(this.vikings, this.panthers, 14, 2017, 'S 1:00', 1.5, this.panthers),
+        new MatchUp(this.bears, this.bengals, 14, 2017, 'S 1:00', -6.5, this.bears),
+        new MatchUp(this.packers, this.browns, 14, 2017, 'S 1:00', 3.5, this.packers),
+        new MatchUp(this.lions, this.bucs, 14, 2017, 'S 1:00', .5, this.lions),
+        new MatchUp(this.cowboys, this.giants, 14, 2017, 'S 1:00', 3.5, this.cowboys),
+        new MatchUp(this.redskins, this.chargers, 14, 2017, 'S 4:05', -6.5, this.chargers),
+        new MatchUp(this.titans, this.cardinals, 14, 2017, 'S 4:05', 3.5, this.cardinals),
+        new MatchUp(this.jets, this.broncos, 14, 2017, 'S 1:00', -1.5, this.broncos),
+        new MatchUp(this.seahawks, this.jags, 14, 2017, '4:25', 6.5, this.jags),
+        new MatchUp(this.eagles, this.rams, 14, 2017, '4:25', 2.5, this.eagles),
+        new MatchUp(this.ravens, this.steelers, 14, 2017, 'S 8:30', -7.5, this.ravens),
+        new MatchUp(this.patriots, this.dolphins, 14, 2017, 'M 8:30', 11.5, this.dolphins)
     ];
+
+    matchUps15: MatchUp[] = [
+        new MatchUp(this.broncos, this.colts, 15, 2017, 'Th 8:25', 1.5, this.broncos),
+        new MatchUp(this.bears, this.lions, 15, 2017, 'Sa 4:30', -6.5, this.lions),
+        new MatchUp(this.chargers, this.cheifs, 15, 2017, 'Sa 8:25', .5, this.cheifs),
+        new MatchUp(this.dolphins, this.bills, 15, 2017, 'S 1:00', -5.5, this.bills),
+        new MatchUp(this.packers, this.panthers, 15, 2017, 'S 1:00', -2.5, this.panthers),
+        new MatchUp(this.ravens, this.browns, 15, 2017, 'S 1:00', 7.5, this.ravens),
+        new MatchUp(this.texans, this.jags, 15, 2017, 'S 1:00', -11.5, this.jags),
+        new MatchUp(this.bengals, this.vikings, 15, 2017, 'S 1:00', -11.5, this.vikings),
+        new MatchUp(this.jets, this.saints, 15, 2017, 'S 1:00', -14.5, this.jets),
+        new MatchUp(this.eagles, this.giants, 15, 2017, 'S 1:00', 7.5, this.giants),
+        new MatchUp(this.cardinals, this.redskins, 15, 2017, 'S 1:00', -4.5, this.redskins),
+        new MatchUp(this.rams, this.seahawks, 15, 2017, 'S 4:05', -.5, this.rams),
+        new MatchUp(this.patriots, this.steelers, 15, 2017, 'S 4:25', 2.5, this.patriots),
+        new MatchUp(this.titans, this.sanFran, 15, 2017, 'S 4:25', -1.5, this.sanFran),
+        new MatchUp(this.cowboys, this.raiders, 15, 2017, 'S 8:30', 2.5, this.cowboys),
+        new MatchUp(this.falcons, this.bucs, 15, 2017, 'M 8:30', 5.5, this.bucs)
+    ];
+
     public getMatchUps() {
         return [
             {
@@ -105,6 +125,9 @@ export class MatchUps {
             }, {
                 number: 14,
                 matchups: this.matchUps14
+            }, {
+                number: 15,
+                matchups: this.matchUps15
             }
         ];
     }

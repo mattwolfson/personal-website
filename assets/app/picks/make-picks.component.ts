@@ -26,7 +26,7 @@ export class MakePicksComponent {
     userName: string = '';
     allMatchUps: Array<any> = this.matchups.getMatchUps();
     selectedWeekIndex = this.allMatchUps.length - 1;
-    totalGames: number = this.allMatchUps.length;
+    totalGames: number = this.allMatchUps[this.selectedWeekIndex].matchups.length;
     finalPicks: Array<any> = new Array(this.totalGames + 2);
 
     ngOnInit() {
@@ -55,12 +55,14 @@ export class MakePicksComponent {
     getUsersPreviousPicks(allPicks: Array<any>) {
         for(let userPickData of allPicks) {
             if(userPickData.isCurrentUser) {
+                console.log('get users prev picks', userPickData);
                 let firstName = userPickData.currentPick.firstName;
                 if (firstName) {
                     this.userName += 'You are signed in as ' + firstName;
                     let lastName = userPickData.currentPick.lastName;
                     if (lastName) { this.userName += ' ' + lastName };
                 }
+                break;
             }
         }
     }
@@ -99,8 +101,8 @@ export class MakePicksComponent {
         }
 
         this.finalPicks[index] = value;
-
         this.picksAreValid = !this.finalPicks.includes(undefined) &&
             this.finalPicks[this.totalGames] !== this.finalPicks[this.totalGames + 1];
+        console.log(this.finalPicks, this.picksAreValid);
     }
 }

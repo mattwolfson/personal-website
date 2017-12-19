@@ -32,6 +32,11 @@ module.exports = webpackMerge.smart(commonConfig, {
     plugins: [
         new webpack.optimize.UglifyJsPlugin({
             sourceMap: false
-        })
+        }),
+        new webpack.DefinePlugin({
+            'process.env': {
+              'NODE_ENV': '"production"'
+            }
+          })
     ]
 });
