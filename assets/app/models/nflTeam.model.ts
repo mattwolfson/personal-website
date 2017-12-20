@@ -5,6 +5,7 @@ export class NflTeam {
         public name: string,
         public logo?: string, 
         public wins?: number,
-        public loses?: number) {
+        public loses?: number,
+        public conferenceRank?: number) {
 	}
 }

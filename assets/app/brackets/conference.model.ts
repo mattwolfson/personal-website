@@ -5,9 +5,9 @@ export class Conference {
 	className: string;
 	sport: string;
 	league: string;
-	teams: Team[];
+	teams: Array<any>;
 
-	constructor(name: string, className: string, teams?: Team[], sport?: string, league?: string) {
+	constructor(name: string, className: string, teams?: Array<any>, sport?: string, league?: string) {
 		this.name = name;
 		this.className = className;
 		this.sport = sport;

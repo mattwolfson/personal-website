@@ -1,4 +1,4 @@
-import { MatchUps } from './matchups.data';
+import { MatchUps } from './../../data/matchups.data';
 import { PicksService } from './picks.service';
 import { MatchUp } from './../models/matchup.model';
 import { Message } from './../messages/message.model';
@@ -12,7 +12,8 @@ import { Picks } from './picks.model';
 @Component({
     selector: 'app-make-picks',
     templateUrl: './make-picks.component.html',
-    styleUrls: ['./picks.component.css']
+    styleUrls: ['./picks.component.css',
+                './../app.component.css']
 })
 
 export class MakePicksComponent {

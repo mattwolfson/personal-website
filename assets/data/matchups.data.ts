@@ -1,5 +1,5 @@
-import { MatchUp } from './../models/matchup.model';
-import { NflTeam } from "../models/nflTeam.model";
+import { MatchUp } from './../app/models/matchup.model';
+import { NflTeam } from "./../app/models/nflTeam.model";
 import { Injectable } from '@angular/core';
 
 @Injectable()

@@ -1,20 +1,30 @@
+<div class="col-md-8 col-md-offset-2">
+    <div class="optionSelectionContainer">
+        <div *ngFor="let sport of allSports; let i = index"
+            class="optionButton{{selectedSportIndex == i ? ' selectedOption' : ''}}"
+            (click)="selectedSportIndex = i; updateSportData()">
+        {{ sport.name }}
+        </div>
+    </div>
+</div>
 <div id="bracket-container">
     <header>
-        <h1>NBA 2017 Post Season Bracket</h1>
+        <h1>{{allSports[selectedSportIndex].name}} 2017-18 Post Season Bracket</h1>
     </header>
     <div class="bracket">
-        <div *ngFor="let conf of conferences"
+        <div *ngFor="let conf of allSports[selectedSportIndex].playoffTeams"
             class="{{conf.className}} conference">
             <div *ngFor="let round of numberOfRounds(conf.teams.length)"
                 class="round-{{round}} round">
-                <div *ngFor="let team of timesToLoop(conf.teams, round); let i = index"
-                        class="teamContent {{team.className}} {{i%2 == 0 ? 'top' : 'bottom'}} 
-                        {{i == 0 ? 'firstTeamInRound' : ''}}"
+                <div *ngFor="let team of teamsInRound(conf.teams, round); let i = index"
+                        class="teamContent{{team.name == 'spacerTeam' ? ' spacerTeam' : '' }} {{team.logo ? 'hasTeam' : ''}} {{i%2 == 0 ? 'top' : 'bottom'}} 
+                        {{i == 0 ? 'firstTeamInRound' : ''}} {{round === 2 && team.logo ? 'byeTeam rank'+team.conferenceRank : ''}}"
                         #elem id="{{conf.name}}-round-{{round}}-team-{{i}}"
-                        (click)="advanceToNextRound(conf.name, round, i, elem.id)">
-                    <span class="rank" *ngIf="round == 1">{{ team.rank }}</span>
-                    <img class="teamPicture" [src]="loadLogo(round, team.logo)">
-                    <form *ngIf="round != 1">
+                        (click)="team.name != 'spacerTeam' && advanceToNextRound(conf.name, round, i, elem.id, team.conferenceRank)">
+                    <span class="rank" *ngIf="round == 1 || (round === 2 && team.logo)">{{ team.conferenceRank }}</span>
+                    <img *ngIf="team.name != 'spacerTeam'" class="teamPicture" [src]="loadLogo(round, team.logo)">
+                    <form *ngIf="round != 1"
+                        class="{{allSports[selectedSportIndex].name}}">
                         <input type="text" class="left"><span>-</span><input class="right">
                     </form>
                 </div>
@@ -22,7 +32,7 @@
         </div>
         <div id='champion'>
             <img class="teamPicture" [src]="blankSpotImg">
-            <form>
+            <form class="{{allSports[selectedSportIndex].name}}">
                 <input type="text" class="left"><span>-</span><input class="right">
             </form>
         </div>

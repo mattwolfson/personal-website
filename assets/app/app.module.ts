@@ -1,4 +1,4 @@
-import { MatchUps } from './picks/matchups.data';
+import { MatchUps } from './../data/matchups.data';
 import { BracketsComponent } from './brackets/brackets.component';
 import { MessageModule } from './messages/message.module';
 import { ErrorService } from './errors/error.service';
@@ -16,6 +16,8 @@ import { MemesComponent } from './memes/memes.component';
 import { FormsModule } from '@angular/forms';
 import { PicksComponent } from './picks/picks.component';
 import { PicksService } from './picks/picks.service';
+import { NbaTeams } from '../data/nbaTeams.data';
+import { NflTeams } from '../data/nflTeams.data';
 
 @NgModule({
     declarations: [
@@ -34,7 +36,7 @@ import { PicksService } from './picks/picks.service';
         HttpModule,
         MessageModule
 	],
-    providers: [AuthService, ErrorService, PicksService, MatchUps],
+    providers: [AuthService, ErrorService, PicksService, MatchUps, NbaTeams, NflTeams],
     bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -1,8 +1,7 @@
 <div class="col-md-8 col-md-offset-2">
-    <div id="weekSelectionContainer">
+    <div class="optionSelectionContainer">
         <div *ngFor="let week of allMatchUps; let i = index"
-            class="week"
-            id="{{selectedWeekIndex == i ? 'selectedWeek' : ''}}"
+            class="optionButton{{selectedWeekIndex == i ? ' selectedOption' : ''}}"
             (click)="selectedWeekIndex = i; updatePickData()">
         Week {{ week.number }}
         </div>

@@ -6,12 +6,13 @@ import { NflTeam } from '../models/nflTeam.model';
 import { PicksService } from './picks.service';
 import { Picks } from './picks.model';
 import { MakePicksComponent } from './make-picks.component';
-import { MatchUps } from './matchups.data';
+import { MatchUps } from './../../data/matchups.data';
 
 @Component({
     selector: 'app-compare-picks',
     templateUrl: './compare-picks.component.html',
-    styleUrls: ['./picks.component.css']
+    styleUrls: ['./picks.component.css',
+                './../app.component.css']
 })
 
 export class ComparePicksComponent implements OnInit {

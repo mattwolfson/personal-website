@@ -4,12 +4,11 @@
         userName :
         'You are not currently signed in, so picks can\'t be submitted. Please go to the Auth tab to sign in'}}
     </div>
-    <div id="weekSelectionContainer">
-        <div *ngFor="let matchUp of allMatchUps; let i = index"
-            class="week"
-            id="{{selectedWeekIndex == i ? 'selectedWeek' : ''}}"
+    <div class="optionSelectionContainer">
+        <div *ngFor="let week of allMatchUps; let i = index"
+            class="optionButton{{selectedWeekIndex == i ? ' selectedOption' : ''}}"
             (click)="selectedWeekIndex = i">
-        Week {{ matchUp.number }}
+        Week {{ week.number }}
         </div>
     </div>
     <tr class="headerRow">

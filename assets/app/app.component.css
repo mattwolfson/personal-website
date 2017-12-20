@@ -1,0 +1,17 @@
+.optionButton {
+    cursor: pointer;
+    padding: 5px;
+    margin: 0px 2px;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.selectedOption {
+    background-color: #337ab7;
+    color: white;
+}
+
+.optionSelectionContainer {
+    display: flex;
+    margin-bottom: 10px;
+}
