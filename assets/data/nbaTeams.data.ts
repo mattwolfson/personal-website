@@ -27,8 +27,8 @@ export class NbaTeams {
         new Team(6, 'Oklahoma_City_Thunder.gif', 'nbaWest', 'Oklahoma City Thunder')
     ];
 
-    nbaEast = new Conference('east', 'eastGroup', this.eastTeams, 'basketball', 'NBA');
-    nbaWest = new Conference('west', 'westGroup', this.westTeams, 'basketball', 'NBA');
+    nbaEast = new Conference('nbaEast', 'eastGroup', this.eastTeams, 'basketball', 'NBA');
+    nbaWest = new Conference('nbaWest', 'westGroup', this.westTeams, 'basketball', 'NBA');
     conferences: Conference[] = [ this.nbaEast, this.nbaWest];
 
     public getPlayoffTeams() {

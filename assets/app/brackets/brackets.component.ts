@@ -18,11 +18,13 @@ export class BracketsComponent implements OnInit {
         blankImageName: string = 'Solid_white.svg';
         blank = new Team(null, this.blankImageName, 'nbaEast');
         blankSpotImg = require("../../img/bracket/nba/" + this.blank.logo);
+        imageSource = this.blankSpotImg.replace(this.blankImageName, '');
         totalRounds: number;
         allTeamsPicked: Boolean = false;
         firstRoundByes: number = 0;
         teamsWithBye: Array<any>;
         playByeTeamBasedOnRank: Boolean = true;
+        yourPicks: Array<any> = [];
 
         allSports = [
             {
@@ -39,6 +41,7 @@ export class BracketsComponent implements OnInit {
             this.firstRoundByes = 0;
             this.getPictureFromTeamElementId('champion').setAttribute('src', this.blankSpotImg);
             this.allTeamsPicked = false;
+            this.yourPicks = [];
         }
 
         public loadLogo(round: Number, logo: String) {
@@ -49,76 +52,87 @@ export class BracketsComponent implements OnInit {
         }
     
         public advanceToNextRound(conferenceName: string, roundNumber: number, teamPosition: number, currentPositionId: string, rank: string) {
-            const winningTeamPicture = this.getPictureFromTeamElementId(currentPositionId).getAttribute('src');
-            const newId = this.findFutureGameId(currentPositionId);
-            const winningPictureBox = this.getPictureFromTeamElementId(newId);
-            winningPictureBox.setAttribute('src', winningTeamPicture);
-    
-            if (newId !== 'champion') {
-                const competingTeamPosition = teamPosition % 2 === 0 ? ++teamPosition : --teamPosition;
-                const competingTeamId = conferenceName + '-round-' + roundNumber + '-team-' + competingTeamPosition;
-                this.clearLoserFromFutureGames(newId, competingTeamId);
-                if(this.playByeTeamBasedOnRank && roundNumber === 1) {
-                    console.log('bye team check');
-                    const idValues = newId.split('-');
-                    let newTeamPosition = Number(idValues[4]);
-                    const nextTeamToPlayPosition = newTeamPosition % 2 === 0 ? ++newTeamPosition : --newTeamPosition;
-                    const nextTeamToPlayId = conferenceName + '-round-2-team-' + nextTeamToPlayPosition;
-                    const nextTeamToPlayElem = document.getElementById(nextTeamToPlayId);
-                    if (nextTeamToPlayElem.classList.contains('byeTeam')) {
-                        const teamToPlayIsHigherRanked: Boolean = nextTeamToPlayElem.classList.contains('rank1') ? true : false;
-                        const byeTeamElems = document.getElementsByClassName('byeTeam');
-                        let otherByeTeamInConfId = null;
-                        for (const index in byeTeamElems) {
-                            if (typeof byeTeamElems[index] === 'object') {
-                                const byeTeamId = byeTeamElems[index].getAttribute('id');
-                                if (byeTeamId.indexOf(conferenceName) > -1 && byeTeamId !== nextTeamToPlayId) {
-                                    console.log(rank);
-                                    otherByeTeamInConfId = byeTeamElems[index].getAttribute('id');
-                                }
-                            }
-                        }
-                        if (otherByeTeamInConfId) {
-                            const otherByeTeamIdValues = otherByeTeamInConfId.split('-');
-                            let newTeamPosition = Number(otherByeTeamIdValues[4]);
-                            const nextTeamToPlayPosition = newTeamPosition % 2 === 0 ? ++newTeamPosition : --newTeamPosition;
-                            const teamPlayingOtherByeTeamId = conferenceName + '-round-2-team-' + nextTeamToPlayPosition;
-                            const teamPlayingOtherByeTeamPicture = this.getPictureFromTeamElementId(teamPlayingOtherByeTeamId).getAttribute('src');
-                            const competingTeamPicture = this.getPictureFromTeamElementId(competingTeamId).getAttribute('src');
-                            const currentTeamPicture = this.getPictureFromTeamElementId(newId).getAttribute('src');
-                            console.log(teamPlayingOtherByeTeamPicture, competingTeamPicture);
-                            if (teamPlayingOtherByeTeamPicture === competingTeamPicture ||
-                                 teamPlayingOtherByeTeamPicture === currentTeamPicture) {
-                                this.getPictureFromTeamElementId(teamPlayingOtherByeTeamId).setAttribute('src',this.blankSpotImg);
-                                console.log(otherByeTeamInConfId, teamPlayingOtherByeTeamId);
-                                this.clearLoserFromFutureGames(otherByeTeamInConfId, teamPlayingOtherByeTeamId);
-                            } else if (teamPlayingOtherByeTeamPicture.indexOf(this.blankImageName) === -1) {
-                                const playoffTeams = this.allSports[this.selectedSportIndex].playoffTeams
-                                for (const i in playoffTeams) {
-                                    if(playoffTeams[i].name === conferenceName) {
-                                        const conferenceTeams = playoffTeams[i].teams;
-                                        for (const j in conferenceTeams) {
-                                            if (teamPlayingOtherByeTeamPicture.indexOf(conferenceTeams[j].logo) > -1) {
-                                                if ((teamToPlayIsHigherRanked && conferenceTeams[j].conferenceRank > rank) ||
-                                                    (!teamToPlayIsHigherRanked && conferenceTeams[j].conferenceRank < rank)) {
-                                                    const newIdPictureElem = this.getPictureFromTeamElementId(newId);
-                                                    this.getPictureFromTeamElementId(teamPlayingOtherByeTeamId)
-                                                        .setAttribute('src', newIdPictureElem.getAttribute('src'));
-                                                    newIdPictureElem.setAttribute('src', teamPlayingOtherByeTeamPicture);
-                                                    break
-                                                }
-                                            }
-                                        }
-                                        break
+            const currentPick = this.findPick(currentPositionId);
+            if (!this.isTeamInNextRound(currentPick.conference, (roundNumber + 1).toString(), currentPick.team)) {
+                const winningTeamPicture = this.imageSource + currentPick.team.logo;
+                const newId = this.findFutureGameId(currentPositionId);
+                const winningPictureBox = this.getPictureFromTeamElementId(newId);
+                const previousWinnerImg = winningPictureBox.getAttribute('src');
+                winningPictureBox.setAttribute('src', winningTeamPicture);
+                const idValues = newId.split('-');
+
+                if (newId !== 'champion') {
+                    this.addPick(idValues[2], currentPick.team, idValues[4], false);
+                    const competingTeamPosition = teamPosition % 2 === 0 ? ++teamPosition : --teamPosition;
+                    const competingTeamId = conferenceName + '-round-' + roundNumber + '-team-' + competingTeamPosition;
+                    this.clearLoserFromFutureGames(newId, previousWinnerImg);
+                    this.clearLoserFromFutureGames(newId, this.getPictureFromTeamElementId(competingTeamId).getAttribute('src'));
+                    if(this.playByeTeamBasedOnRank && roundNumber === 1) {
+                        console.log('bye team check');
+                        const idValues = newId.split('-');
+                        let newTeamPosition = Number(idValues[4]);
+                        const nextTeamToPlayPosition = newTeamPosition % 2 === 0 ? ++newTeamPosition : --newTeamPosition;
+                        const nextTeamToPlayId = conferenceName + '-round-2-team-' + nextTeamToPlayPosition;
+                        const nextTeamToPlayElem = document.getElementById(nextTeamToPlayId);
+                        // this.clearLoserFromFutureGames(nextTeamToPlayId, newId);
+                        if (nextTeamToPlayElem.classList.contains('byeTeam')) {
+                            const teamToPlayIsHigherRanked: Boolean = nextTeamToPlayElem.classList.contains('rank1') ? true : false;
+                            const byeTeamElems = document.getElementsByClassName('byeTeam');
+                            let otherByeTeamInConfId = null;
+                            for (const index in byeTeamElems) {
+                                if (typeof byeTeamElems[index] === 'object') {
+                                    const byeTeamId = byeTeamElems[index].getAttribute('id');
+                                    if (byeTeamId.indexOf(conferenceName) > -1 && byeTeamId !== nextTeamToPlayId) {
+                                        console.log(rank);
+                                        otherByeTeamInConfId = byeTeamElems[index].getAttribute('id');
                                     }
                                 }
-                                this.allSports[this.selectedSportIndex].playoffTeams[conferenceName]
+                            }
+                            if (otherByeTeamInConfId) {
+                                const otherByeTeamIdValues = otherByeTeamInConfId.split('-');
+                                let newTeamPosition = Number(otherByeTeamIdValues[4]);
+                                const nextTeamToPlayPosition = newTeamPosition % 2 === 0 ? ++newTeamPosition : --newTeamPosition;
+                                const teamPlayingOtherByeTeamId = conferenceName + '-round-2-team-' + nextTeamToPlayPosition;
+                                const teamPlayingOtherByeTeamPicture = this.getPictureFromTeamElementId(teamPlayingOtherByeTeamId).getAttribute('src');
+                                const competingTeamPicture = this.getPictureFromTeamElementId(competingTeamId).getAttribute('src');
+                                if (teamPlayingOtherByeTeamPicture === competingTeamPicture ||
+                                    teamPlayingOtherByeTeamPicture === winningTeamPicture) {
+                                    this.getPictureFromTeamElementId(teamPlayingOtherByeTeamId).setAttribute('src',this.blankSpotImg);
+                                    this.clearLoserFromFutureGames(otherByeTeamInConfId, teamPlayingOtherByeTeamPicture);
+                                } else if (teamPlayingOtherByeTeamPicture.indexOf(this.blankImageName) === -1) {
+                                    const playoffTeams = this.allSports[this.selectedSportIndex].playoffTeams
+                                    for (const i in playoffTeams) {
+                                        if(playoffTeams[i].name === conferenceName) {
+                                            const conferenceTeams = playoffTeams[i].teams;
+                                            for (const j in conferenceTeams) {
+                                                if (teamPlayingOtherByeTeamPicture.indexOf(conferenceTeams[j].logo) > -1) {
+                                                    if ((teamToPlayIsHigherRanked && conferenceTeams[j].conferenceRank > rank) ||
+                                                        (!teamToPlayIsHigherRanked && conferenceTeams[j].conferenceRank < rank)) {
+                                                        const newIdPictureElem = this.getPictureFromTeamElementId(newId);
+                                                        this.getPictureFromTeamElementId(teamPlayingOtherByeTeamId)
+                                                            .setAttribute('src', winningTeamPicture);
+                                                        newIdPictureElem.setAttribute('src', teamPlayingOtherByeTeamPicture);
+                                                        this.swapLocations(teamPlayingOtherByeTeamId, newId);
+                                                        this.clearLoserFromFutureGames(teamPlayingOtherByeTeamId, teamPlayingOtherByeTeamPicture);
+                                                        this.clearLoserFromFutureGames(newId, winningTeamPicture);
+                                                        break
+                                                    }
+                                                }
+                                            }
+                                            break
+                                        }
+                                    }
+                                    this.allSports[this.selectedSportIndex].playoffTeams[conferenceName]
+                                }
                             }
                         }
+                    } else {
                     }
+                } else {
+                    this.addPick('champ', currentPick.team, "0", false);
                 }
+                this.checkToUpdateSubmitButon();
             }
-            this.checkToUpdateSubmitButon();
         }
     
         private findFutureGameId(currentPositionId: string) {
@@ -137,14 +151,14 @@ export class BracketsComponent implements OnInit {
             return newId;
         }
     
-        private clearLoserFromFutureGames(futureWinnerId: string, losingTeamId: string) {
-            const losingTeamPicture = this.getPictureFromTeamElementId(losingTeamId).getAttribute('src');
+        private clearLoserFromFutureGames(futureWinnerId: string, losingTeamPicture: string) {
             if (losingTeamPicture !== this.blankSpotImg) {
                 while (futureWinnerId !== 'champion') {
                     futureWinnerId = this.findFutureGameId(futureWinnerId);
                     let futureWinnerPictureElement = this.getPictureFromTeamElementId(futureWinnerId);
                     let futureWinnerPicture = futureWinnerPictureElement.getAttribute('src');
                     if (futureWinnerPicture === losingTeamPicture) {
+                        this.deletePick(futureWinnerId);
                         futureWinnerPictureElement.setAttribute('src', this.blankSpotImg);
                     } else {
                         break;
@@ -241,9 +255,12 @@ export class BracketsComponent implements OnInit {
                     const numberOfTeams = conferenceTeams.length + totalFirstRoundByes;
                     const roundedNumber = Math.ceil(numberOfTeams / (Math.pow(2, roundNumber - 1)));
                     if (totalFirstRoundByes === 1) { //Assume the Max teams on a bye is 2
+                        this.addPick("2", this.teamsWithBye[0], "0", true);
                         return this.teamsWithBye.concat(Array(roundedNumber-totalFirstRoundByes)
                             .fill(0).map((x, i) => i + totalFirstRoundByes));
                     } else if (totalFirstRoundByes === 2) {
+                        this.addPick("2", this.teamsWithBye[0], "0", true);
+                        this.addPick("2", this.teamsWithBye[1], (roundedNumber - 1).toString(), true);
                         return [].concat.apply([], [this.teamsWithBye[0], 
                             Array(roundedNumber-totalFirstRoundByes).fill(0).map((x, i) => i + totalFirstRoundByes - 1),
                              this.teamsWithBye[1]]);
@@ -264,12 +281,96 @@ export class BracketsComponent implements OnInit {
             this.teamsWithBye = sortedConferenceTeams.slice(0,this.firstRoundByes);
             
             const teamsPlayingInRound1 = sortedConferenceTeams.slice(this.firstRoundByes);
+
             const betterRound1Teams = teamsPlayingInRound1.slice(0, teamsPlayingInRound1.length/2);
             const worseRound1Teams = teamsPlayingInRound1.slice(teamsPlayingInRound1.length/2).reverse();
             const round1MatchUps = betterRound1Teams.reduce(function(arr, v, i) {
                     return arr.concat(v, worseRound1Teams[i]); 
                 }, []);
-            return this.addBlankMatchUpsToRound(byesCounted, round1MatchUps);
+            const round1Games = this.addBlankMatchUpsToRound(byesCounted, round1MatchUps);
+            for (const team in round1Games) {
+                if (round1Games[team].conference) {
+                    this.addPick("1", round1Games[team], team, true);
+                }
+            }
+            return round1Games;
+        }
+
+        private addPick(round: string, team: any, spot: string, isStartingPosition: Boolean) {
+            const pickId = team.conference + "-round-" + round + "-team-" + spot;
+            const pick = {
+                'id': pickId,
+                'round': round,
+                'spot': spot,
+                'Conference': team.conference,
+                'team': team,
+                'isStartingPosition': isStartingPosition
+            };
+            //Remove same pick if it exists
+            for(var i = 0; i < this.yourPicks.length; i++) {
+                if (this.yourPicks[i].id == pickId) {
+                    this.yourPicks.splice(i, 1)
+                    break;
+                }
+            }
+            this.yourPicks.push(pick);
+        }
+
+        private findPick(pickId: string) {
+            for(var i = 0; i < this.yourPicks.length; i++) {
+                if (this.yourPicks[i].id == pickId) {
+                    return this.yourPicks[i];
+                }
+            }
+            return null;
+        }
+        
+        private isTeamInNextRound(conference: string, round: string, team: any) {
+            for(var i = 0; i < this.yourPicks.length; i++) {
+                if (this.yourPicks[i].conference === conference &&
+                    this.yourPicks[i].round === round &&
+                    this.yourPicks[i].team === team) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private deletePick(pickId: string) {
+            for(var i = 0; i < this.yourPicks.length; i++) {
+                if (this.yourPicks[i].id == pickId) {
+                    this.yourPicks.splice(i, 1)
+                    break;
+                }
+            }
+        }
+        
+        private clearPicks() {
+            for(var i = 0; i < this.yourPicks.length; i++) {
+                if (!this.yourPicks[i].isStartingPosition) {
+                    this.yourPicks.splice(i, 1)
+                }
+            }
+        }
+
+        private swapLocations(pickId1: string, pickId2: string) {
+            const pickId1Values = pickId1.split('-');
+            const pickId2Values = pickId2.split('-');
+            let pick1Index;
+            let pick2Index;
+            for(var i = 0; i < this.yourPicks.length; i++) {
+                if (this.yourPicks[i].id == pickId1) {
+                    pick1Index = i;
+                } else if (this.yourPicks[i].id == pickId2) {
+                    pick2Index = i;
+                }
+            }
+            this.yourPicks[pick1Index].id = pickId2;
+            this.yourPicks[pick1Index].round = pickId2Values[2]
+            this.yourPicks[pick1Index].spot = pickId2Values[4]
+            this.yourPicks[pick2Index].id = pickId1;
+            this.yourPicks[pick2Index].round = pickId1Values[2]
+            this.yourPicks[pick2Index].spot = pickId1Values[4]
         }
 
         private addBlankMatchUpsToRound(byesCounted: number, teamsPlayingInRound: Array<any>): Array<any> {
@@ -283,7 +384,6 @@ export class BracketsComponent implements OnInit {
                 teamsPlayingInRound = [].concat.apply([], [blankMatchup, teamsPlayingInRound, blankMatchup]);
                 byesToAccountFor = byesToAccountFor - 2;
             }
-
             return teamsPlayingInRound;
         }
     
