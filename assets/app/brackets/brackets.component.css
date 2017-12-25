@@ -129,7 +129,7 @@ h1 {
     border: 1px solid dodgerblue;
 }
 
-form {
+.form {
     transform: translate(0px, 50px);
     position: absolute;
     width: 45px;
@@ -138,11 +138,11 @@ form {
     color: orange;
 }
 
-form.NFL {
+.form.NFL {
     width: 70px;
 }
 
-form.NFL span{
+.form.NFL span{
     left: 23px;
 }
 
@@ -161,15 +161,22 @@ input {
     border-color: grey;
 }
 
+.signIn {
+    margin-left: 5px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    font-style: italic;
+}
+
 .NFL input {
     width: 26px;
 }
 
-.hasTeam form {
+.hasTeam .form {
    display: none;
 }
 
-form span {
+.form span {
     text-align: center;
     font-family: Courier;
     font-size: 22px;

@@ -1,3 +1,4 @@
+import { BracketsService } from './brackets/brackets.service';
 import { MatchUps } from './../data/matchups.data';
 import { BracketsComponent } from './brackets/brackets.component';
 import { MessageModule } from './messages/message.module';
@@ -36,7 +37,7 @@ import { NflTeams } from '../data/nflTeams.data';
         HttpModule,
         MessageModule
 	],
-    providers: [AuthService, ErrorService, PicksService, MatchUps, NbaTeams, NflTeams],
+    providers: [AuthService, ErrorService, PicksService, BracketsService, MatchUps, NbaTeams, NflTeams],
     bootstrap: [AppComponent]
 })
 export class AppModule {

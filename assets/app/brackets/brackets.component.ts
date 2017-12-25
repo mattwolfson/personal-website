@@ -1,8 +1,12 @@
+import { FormControl } from '@angular/forms';
 import { NflTeams } from './../../data/nflTeams.data';
 import { NbaTeams } from './../../data/nbaTeams.data';
 import { Component, OnInit } from "@angular/core";
 import { Team } from './team.model';
 import { Conference } from './conference.model';
+import { Validators } from '@angular/forms/src/validators';
+import { BracketsService } from './brackets.service';
+import { BracketPicks } from './bracketPicks.model';
 
 @Component({
 	selector: 'brackets',
@@ -13,7 +17,7 @@ import { Conference } from './conference.model';
 
 export class BracketsComponent implements OnInit {
 
-        constructor(private nbaTeams: NbaTeams, private nflTeams: NflTeams) {}
+        constructor(private nbaTeams: NbaTeams, private nflTeams: NflTeams, private bracketsService: BracketsService,) {}
 
         blankImageName: string = 'Solid_white.svg';
         blank = new Team(null, this.blankImageName, 'nbaEast');
@@ -25,6 +29,9 @@ export class BracketsComponent implements OnInit {
         teamsWithBye: Array<any>;
         playByeTeamBasedOnRank: Boolean = true;
         yourPicks: Array<any> = [];
+        score: Object = {};
+        bracketPicks: BracketPicks;
+        userName: string = '';
 
         allSports = [
             {
@@ -53,7 +60,7 @@ export class BracketsComponent implements OnInit {
     
         public advanceToNextRound(conferenceName: string, roundNumber: number, teamPosition: number, currentPositionId: string, rank: string) {
             const currentPick = this.findPick(currentPositionId);
-            if (!this.isTeamInNextRound(currentPick.conference, (roundNumber + 1).toString(), currentPick.team)) {
+            if (currentPick && !this.isTeamInNextRound(currentPick.conference, (roundNumber + 1).toString(), currentPick.team)) {
                 const winningTeamPicture = this.imageSource + currentPick.team.logo;
                 const newId = this.findFutureGameId(currentPositionId);
                 const winningPictureBox = this.getPictureFromTeamElementId(newId);
@@ -178,25 +185,25 @@ export class BracketsComponent implements OnInit {
     
     
       ngOnInit() {
-          //TODO: Make validation work. This only works for one key input, so can't work for football
-          const  verifyInput = function (e: any) {
-            e = e || window.event;
-            const keyChar = String.fromCharCode(e.keyCode),
-                input = e.target || e.srcElement;
-            const maxScore = this.allSports[this.selectedSportIndex].name === 'NBA' ? '4' : '99'
-            if (keyChar < '0' || keyChar > maxScore) {
-                return false;
-            } else {
-                input.value = '';
+        this.score['winners'] = {};
+        this.score['losers'] = {};
+        this.userName = localStorage.getItem('token') ? 'You are signed in. Feel free to make picks' : '';
+        this.bracketsService.getBracketPicks()
+        .subscribe(
+            (picks) => {
+                console.log(picks);
+                if (picks) {
+                    this.bracketPicks = picks;
+                    this.showPicks();
+                } else {
+                    console.log('no picks from Picks object');
+                }
             }
-          };
-        }
+        );
+      }
 
-      public sortByKey(array: Array<any>, key: string) {
-          return array.sort(function(a, b) {
-              var x = a[key]; var y = b[key];
-              return ((x < y) ? -1 : ((x > y) ? 1 : 0));
-          });
+      public showPicks() {
+
       }
     
       public checkForUnpickedTeams(enableAlerts: boolean) {
@@ -216,20 +223,6 @@ export class BracketsComponent implements OnInit {
                   allTeamsPicked = false;
                   break;
               }
-            //   else if(currentTeamImg.indexOf("/nba/")>=0) {
-            //       currentTeam = currentTeamImg.substring(currentTeamImg.indexOf("nba")+4,currentTeamImg.indexOf("."));
-            //     if(!playoffTeams.includes(currentTeam)){
-            //           playoffTeams.push(currentTeam);
-            //       } else if(!yourFirstRoundPicks.includes(currentTeam)){
-            //           yourFirstRoundPicks.push(currentTeam);
-            //       } else if(!yourConferenceFinalPicks.includes(currentTeam)){
-            //           yourConferenceFinalPicks.push(currentTeam);
-            //       } else if(!yourConferenceChampPicks.includes(currentTeam)){
-            //           yourConferenceChampPicks.push(currentTeam);
-            //       } else {
-            //           yourFinalsChampPick = currentTeam;
-            //       }
-            //   }
           }
     
           return allTeamsPicked;
@@ -240,10 +233,27 @@ export class BracketsComponent implements OnInit {
       }
       public submitBracket(event: Event) {
           this.allTeamsPicked = this.checkForUnpickedTeams(true);
+          const scoresToPick = this.yourPicks.length - this.allSports[this.selectedSportIndex].playoffTeams[0].teams.length*2;
           if (this.allTeamsPicked) {
-              alert("SORREY!!!!\nThis site is not able to save your brackets yet..\nBut it's next on my To Do list!!");
-          }
-      }
+              let allScoresPicked = this.score['winners'].length === scoresToPick 
+                && this.score['losers'].length === scoresToPick;
+              if(!allScoresPicked) {
+                  allScoresPicked = confirm("Are you sure you want to submit picks without scores for each game?");
+              }
+
+              if(allScoresPicked) {
+                const picks = new BracketPicks(this.allSports[this.selectedSportIndex].name, 2017, JSON.stringify(this.yourPicks), 
+                    JSON.stringify(this.score), 'Family');
+                this.bracketsService.addBracketPicks(picks)
+                    .subscribe(
+                        data => console.log(data),
+                        error => console.error(error)
+                    );
+                alert('Your Picks are in the system. There is currently no display for them now, but that will be up before playoff time!')
+              }
+
+            }
+        }
     
         public teamsInRound(conferenceTeams: Team[], roundNumber: number) {
             const totalFirstRoundByes = this.firstRoundByes;

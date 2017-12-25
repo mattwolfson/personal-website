@@ -6,6 +6,12 @@
         {{ sport.name }}
         </div>
     </div>
+</div>    
+<div  class="col-md-8 col-md-offset-2">
+    <div class="signIn">
+        {{userName != '' ? userName :
+        'You are not currently signed in, so picks can\'t be submitted. Please go to the Auth tab to sign in'}}
+    </div>
 </div>
 <div id="bracket-container">
     <header>
@@ -19,22 +25,34 @@
                 <div *ngFor="let team of teamsInRound(conf.teams, round); let i = index"
                         class="teamContent{{team.name == 'spacerTeam' ? ' spacerTeam' : '' }} {{team.logo ? 'hasTeam' : ''}} {{i%2 == 0 ? 'top' : 'bottom'}} 
                         {{i == 0 ? 'firstTeamInRound' : ''}} {{round === 2 && team.logo ? 'byeTeam rank'+team.conferenceRank : ''}}"
-                        #elem id="{{conf.name}}-round-{{round}}-team-{{i}}"
-                        (click)="team.name != 'spacerTeam' && advanceToNextRound(conf.name, round, i, elem.id, team.conferenceRank)">
+                        #elem id="{{conf.name}}-round-{{round}}-team-{{i}}">
                     <span class="rank" *ngIf="round == 1 || (round === 2 && team.logo)">{{ team.conferenceRank }}</span>
-                    <img *ngIf="team.name != 'spacerTeam'" class="teamPicture" [src]="loadLogo(round, team.logo)">
-                    <form *ngIf="round != 1"
-                        class="{{allSports[selectedSportIndex].name}}">
-                        <input type="text" class="left"><span>-</span><input class="right">
-                    </form>
+                    <img *ngIf="team.name != 'spacerTeam'" class="teamPicture" [src]="loadLogo(round, team.logo)"
+                        (click)="team.name != 'spacerTeam' && advanceToNextRound(conf.name, round, i, elem.id, team.conferenceRank)">
+                    <div *ngIf="round != 1"
+                        class="form {{allSports[selectedSportIndex].name}}">
+                        <input type="text" [(ngModel)]="score['winners'][conf.name + '-' + round + '-' + i]"  
+                            maxlength="2"
+                            onkeypress='return event.charCode >= 48 && event.charCode <= 57' 
+                            class="left">
+                        <span>-</span>
+                        <input [(ngModel)]="score['losers'][conf.name + '-' + round + '-' + i]"  
+                            maxlength="2"
+                            onkeypress='return event.charCode >= 48 && event.charCode <= 57' 
+                            class="right">
+                    </div>
                 </div>
             </div>
         </div>
         <div id='champion'>
             <img class="teamPicture" [src]="blankSpotImg">
-            <form class="{{allSports[selectedSportIndex].name}}">
-                <input type="text" class="left"><span>-</span><input class="right">
-            </form>
+            <div class="form {{allSports[selectedSportIndex].name}}">
+                <input type="text" class="left" maxlength="2" [(ngModel)]="score['winners']['championship']"
+                    onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
+                <span>-</span>
+                <input maxlength="2" class="right" [(ngModel)]="score['losers']['championship']"
+                    onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
+            </div>
         </div>
     </div> 
     <button id="submitBracket" (click)="submitBracket($event)"> Submit Bracket </button>
