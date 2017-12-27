@@ -140,7 +140,7 @@ export class MatchUps {
         new MatchUp(this.jets, this.patriots, 17, 2017, 'S 1:00', -15.5),
         new MatchUp(this.redskins, this.giants, 17, 2017, 'S 1:00', 3.5),
         new MatchUp(this.cowboys, this.eagles, 17, 2017, 'S 1:00', -2.5),
-        new MatchUp(this.browns, this.steelers, 17, 2017, 'S 1:00', -14),
+        new MatchUp(this.browns, this.steelers, 17, 2017, 'S 1:00', -14.5),
         new MatchUp(this.panthers, this.falcons, 17, 2017, 'S 4:25', -4.5),
         new MatchUp(this.cheifs, this.broncos, 17, 2017, 'S 4:25', -3.5),
         new MatchUp(this.jags, this.titans, 17, 2017, 'S 4:25', -6.5),

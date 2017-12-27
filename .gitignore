@@ -4,3 +4,8 @@
 /public/js/
 npm-debug.log
 *.zip
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
