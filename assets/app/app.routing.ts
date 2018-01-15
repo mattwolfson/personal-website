@@ -11,7 +11,7 @@ const APP_ROUTES: Routes = [
 	{ path: '', redirectTo: '/picks/compare', pathMatch: 'full' },
 	{ path: 'messages', component: MessagesComponent },
 	{ path: 'auth', component: AuthenticationComponent, loadChildren: './auth/auth.module#AuthModule' },
-	{ path: 'brackets', component: BracketsComponent },
+	{ path: 'brackets', component: BracketsComponent, loadChildren: './brackets/brackets.module#BracketsModule' },
 	{ path: 'memes', component: MemesComponent },
 	{ path: 'picks', component: PicksComponent, loadChildren: './picks/picks.module#PicksModule'  },
 	{ path: '**', redirectTo: '/picks/compare', pathMatch: 'full' }

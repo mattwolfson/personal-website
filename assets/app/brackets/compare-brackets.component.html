@@ -1,0 +1,58 @@
+<div class="col-md-8 col-md-offset-2">
+    <div class="optionSelectionContainer">
+        <div *ngFor="let sport of allSports; let i = index"
+            class="optionButton{{selectedSportIndex == i ? ' selectedOption' : ''}}"
+            (click)="selectedSportIndex = i; updateSportData()">
+        {{ sport.name }}
+        </div>
+    </div>
+</div>
+<div id="bracket-container" class="col-md-8 col-md-offset-2">
+    <header>
+        <h1>{{allSports[selectedSportIndex].name}} 2017-18 Post Season Bracket</h1>
+    </header>
+    <div *ngFor="let bracket of bracketPicks; let bracketNum = index">
+      <div class="bracketName">
+        {{bracket['currentPick']['firstName'] + ' ' + bracket['currentPick']['lastName'] + '\'s Bracket'}}
+      </div>
+      <div class="bracket">
+          <div *ngFor="let conf of allSports[selectedSportIndex].playoffTeams"
+              class="{{conf.className}} conference">
+              <div *ngFor="let round of numberOfRounds(conf.teams.length)"
+                  class="round-{{round}} round">
+                  <div *ngFor="let team of teamsInRound(conf.teams, round); let i = index"
+                          class="teamContent{{team.name == 'spacerTeam' ? ' spacerTeam' : '' }} {{team.logo ? 'hasTeam' : ''}} {{i%2 == 0 ? 'top' : 'bottom'}} 
+                          {{i == 0 ? 'firstTeamInRound' : ''}} {{round === 2 && team.logo ? 'byeTeam rank'+team.conferenceRank : ''}}"
+                          #elem id="{{bracketNum}}-{{conf.name}}-round-{{round}}-team-{{i}}">
+                      <span class="rank" *ngIf="round == 1 || (round === 2 && team.logo)">{{ team.conferenceRank }}</span>
+                      <img *ngIf="team.name != 'spacerTeam'" class="teamPicture" [src]="loadLogo(round, team.logo)">
+                      <div *ngIf="round != 1"
+                          class="form {{allSports[selectedSportIndex].name}}">
+                          <input type="text" [(ngModel)]="score['winners'][conf.name + '-' + round + '-' + i]"
+                              id="{{bracketNum}}-{{conf.name}}-{{round}}-{{i}}-winner"
+                              onkeypress='return false' 
+                              class="left">
+                          <span>-</span>
+                          <input [(ngModel)]="score['losers'][conf.name + '-' + round + '-' + i]"
+                              id="{{bracketNum}}-{{conf.name}}-{{round}}-{{i}}-loser"
+                              onkeypress='return false' 
+                              class="right">
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div id='{{bracketNum}}-champion' class="champion">
+              <img class="teamPicture" [src]="blankSpotImg">
+              <div class="form {{allSports[selectedSportIndex].name}}">
+                  <input type="text" class="left" [(ngModel)]="score['winners']['championship']"
+                      id="{{bracketNum}}-championship-winner"
+                      onkeypress='return false'>
+                  <span>-</span>
+                  <input class="right" [(ngModel)]="score['losers']['championship']"
+                      id="{{bracketNum}}-championship-loser"
+                      onkeypress='return false'>
+              </div>
+          </div>
+      </div>
+    </div>
+</div>
