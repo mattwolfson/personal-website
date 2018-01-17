@@ -16,6 +16,34 @@ h1 {
     text-align: center;
 }
 
+.scoreTitle {
+    font-size: 24px;
+    text-align: center;
+    font-style: italic;
+}
+
+td {
+    font-size: 14px;
+    padding: 5px;
+    text-align: center;
+}
+
+.greyRow {
+    background-color: lightgrey;
+}
+
+.headerRow {
+    text-align: center;
+}
+
+.headerRow td {
+    border-bottom: solid;
+}
+
+.compareTable {
+    padding: 5px 0;
+}
+
 .bracket {
     display: flex;
     flex-wrap: wrap;

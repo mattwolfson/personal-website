@@ -2,7 +2,6 @@ import { NflTeams } from './../../data/nflTeams.data';
 import { NbaTeams } from './../../data/nbaTeams.data';
 import { Component, OnInit } from "@angular/core";
 import { Team } from './team.model';
-import { Conference } from './conference.model';
 import { Validators } from '@angular/forms/src/validators';
 import { BracketsService } from './brackets.service';
 import { BracketPicks } from './bracketPicks.model';
@@ -17,7 +16,7 @@ import { Element } from '@angular/compiler';
 
 export class CompareBracketsComponent implements OnInit {
 
-        constructor(private nbaTeams: NbaTeams, private nflTeams: NflTeams, private bracketsService: BracketsService,) {}
+        constructor(private nbaTeams: NbaTeams, private nflTeams: NflTeams, private bracketsService: BracketsService) {}
 
         blankImageName: string = 'Solid_white.svg';
         blank = new Team(null, this.blankImageName, 'nbaEast');
@@ -32,6 +31,11 @@ export class CompareBracketsComponent implements OnInit {
         score: Object = {};
         bracketPicks: BracketPicks;
         userName: string = '';
+        playoffWinners: Object = this.nflTeams.getPlayoffWinners();
+        playoffScores: Object = this.nflTeams.getPlayoffScores();
+        totalPoints: number = 0;
+        topBracketScores: Object = {};
+        roundsArray: Array<number>;
 
         allSports = [
             {
@@ -54,6 +58,8 @@ export class CompareBracketsComponent implements OnInit {
                 if (picks) {
                     console.log(picks);
                     this.bracketPicks = picks;
+                    this.numberOfRounds(this.allSports[this.selectedSportIndex].playoffTeams[0].teams.length)
+                    this.getBestPointFromScore();
                     const self = this;
                     setTimeout(function(){ self.showPicks(); }, 100);
                 } else {
@@ -94,15 +100,167 @@ export class CompareBracketsComponent implements OnInit {
         }
       }
 
-
-        private getPictureFromTeamElementId(id: string) {
-            const team = document.getElementById(id);
-            for(let index in team.children) {
-                if (team.children[index].className === 'teamPicture') {
-                    return team.children[index];
+      public getRoundWins(round: number, picks: any) {
+        const playoffWinners: Array<String> = this.playoffWinners[round];
+        let roundWins: number = 0;
+        for (let num in picks) {
+            if (picks[num].round == round && !picks[num].isStartingPosition) {
+                if (playoffWinners.indexOf(picks[num].team.name) > -1) {
+                    roundWins++;
                 }
-            };
+            }
         }
+        this.totalPoints += roundWins;
+        return roundWins;
+      }
+
+      public getTotalPoints() {
+        const bracketTotalPoints = this.totalPoints;
+        this.totalPoints = 0;
+        return bracketTotalPoints;
+      }
+
+      public getPointsFromScore(round: any, bracket: any,  bracketNum: any, metric: string) {
+        console.log('Points for bracket ' + bracketNum);
+        let spreadPoints = 0;
+        let overUnderPoints = 0;
+        let bonusPoints = 0;
+        let totalPointsFromScore = 0;
+        for(let game in bracket.scores.winners) {
+          const gameValues = game.split('-');
+          if((round === 'championship' && game === 'champoinship') ||
+            Number(gameValues[1]) === round) {
+            const winningScore: number = bracket.scores.winners[game] ? Number(bracket.scores.winners[game]) : 0;
+            const losingScore: number = bracket.scores.losers[game] ? Number(bracket.scores.losers[game]) : 0;
+            const spread: number = this.getSpread(game, bracketNum, winningScore, losingScore);
+            const overUnder: number = winningScore + losingScore;
+            const actualWinningScore: number = Number(this.playoffScores['winners'][game]);
+            const actualLosingScore: number = Number(this.playoffScores['losers'][game]);
+            const realSpread: number =  actualWinningScore - actualLosingScore;
+            const realOverUnder: number = actualWinningScore + actualLosingScore;
+            if (this.topBracketScores[game].spreadDiff === Math.abs(spread - realSpread)) { spreadPoints++; }
+            if (this.topBracketScores[game].overUnderDiff === Math.abs(overUnder - realOverUnder)) { overUnderPoints++; }
+            if (this.topBracketScores[game].winningScore === winningScore &&
+              this.topBracketScores[game].losingScore === losingScore) { 
+                bonusPoints++; 
+            }
+          }
+        }
+
+        this.totalPoints += spreadPoints + overUnderPoints + bonusPoints;
+        return spreadPoints + ', ' + overUnderPoints + ', ' + bonusPoints;
+      }
+
+      public getBestPointFromScore() {
+        for(let bracketNum in this.bracketPicks) {
+          let bracketScores = this.bracketPicks[bracketNum]['currentPick']['scores'];
+          for(let game in bracketScores.winners) {
+            const winningScore: number = bracketScores.winners[game] ? Number(bracketScores.winners[game]) : 0;
+            const actualWinningScore: number = Number(this.playoffScores['winners'][game]);
+            const losingScore: number = bracketScores.losers[game] ? Number(bracketScores.losers[game]) : 0;
+            const actualLosingScore: number = Number(this.playoffScores['losers'][game]);
+            const spread: number = this.getSpread(game, bracketNum, winningScore, losingScore);
+            const realSpread: number =  actualWinningScore - actualLosingScore;
+            const overUnder: number = winningScore + losingScore;
+            const realOverUnder: number = actualWinningScore + actualLosingScore;
+            if (!this.topBracketScores[game]) {
+              this.topBracketScores[game] = {
+                'spreadDiff':  Math.abs(spread - realSpread),
+                'overUnderDiff': Math.abs(overUnder - realOverUnder),
+                'winningScore': this.playoffScores['winners'][game],
+                'losingScore': this.playoffScores['losers'][game],
+              }
+            } else {
+              if (this.topBracketScores[game].spreadDiff > Math.abs(spread - realSpread)) {
+                this.topBracketScores[game].spreadDiff = Math.abs(spread - realSpread);
+              }
+              if(this.topBracketScores[game].overUnderDiff > Math.abs(overUnder - realOverUnder)) {
+                this.topBracketScores[game].overUnderDiff = Math.abs(overUnder - realOverUnder);
+              }
+            }
+          }
+        }
+      }
+
+      private getSpread(game: string, bracketNum: any, winningScore: number, losingScore: number) {
+        const gameValues = game.split('-');
+        let previousRound;
+        let previousTeamNum1;
+        let previousTeamNum2;
+        let previousTeamId1;
+        let previousTeamId2;
+        let previousTeamNames: Array<string>;
+        let topTeamLost: boolean = false;
+        let bottomTeamLost: boolean = false;
+        let pickedLosingTeamToWin: boolean = false;
+        let picksToWinTheRound;
+        let playoffWinners: Array<String>;
+        let previousPlayoffWinners: Array<String>;
+        const picks = this.bracketPicks[bracketNum]['currentPick']['picks'];
+
+        if (gameValues[0] === 'championship') {
+          playoffWinners = this.playoffWinners['championship'] || [];
+          previousRound = this.totalRounds;
+          previousTeamNum1 = 0;
+          previousTeamNum2 = 0;
+          previousTeamId1 = this.allSports[this.selectedSportIndex].playoffTeams[0].name + '-round-' + previousRound + '-team-' + previousTeamNum1;
+          previousTeamId2 = this.allSports[this.selectedSportIndex].playoffTeams[1].name + '-round-' + previousRound + '-team-' + previousTeamNum2;
+        } else {
+          playoffWinners = this.playoffWinners[String(gameValues[1])] || [];
+          previousRound = Number(gameValues[1]) - 1;
+          previousTeamNum1 = Number(gameValues[2])*2;
+          previousTeamNum2 = previousTeamNum1 + 1;
+          previousTeamId1 = gameValues[0] + '-round-' + previousRound + '-team-' + previousTeamNum1;
+          previousTeamId2 = gameValues[0] + '-round-' + previousRound + '-team-' + previousTeamNum2;
+        }
+
+        previousPlayoffWinners = this.playoffWinners[previousRound] || [];
+        const round = gameValues[0] === 'championship' ? 'championship' : 'round-' + (gameValues[1])
+        let picksForRound: Array<any> = [];
+        for(const num in picks) {
+          if (picks[num].id.indexOf(round) > -1) {
+            picksForRound.push(picks[num].team.name);
+          }
+        }
+        for(const num in picks) {
+          if (picks[num].id === previousTeamId1) {
+            if (previousPlayoffWinners.indexOf(picks[num].team.name) > -1 || picks[num].team.isStartingPosition) {
+              if (playoffWinners.indexOf(picks[num].team.name) > -1 && picksForRound.indexOf(picks[num].team.name) > -1) {
+                return winningScore - losingScore;
+              } else if (picksForRound.indexOf(picks[num].team.name) > -1) {
+                pickedLosingTeamToWin = true;
+              }
+              topTeamLost = true;
+            }
+          } else if (picks[num].id === previousTeamId2) {
+            if (previousPlayoffWinners.indexOf(picks[num].team.name) > -1 || picks[num].team.isStartingPosition) {
+              if (playoffWinners.indexOf(picks[num].team.name) > -1 && picksForRound.indexOf(picks[num].team.name) > -1) {
+                return winningScore - losingScore;
+              } else if (picksForRound.indexOf(picks[num].team.name) > -1) {
+                pickedLosingTeamToWin = true;
+              }
+              bottomTeamLost = true;
+            }
+          } 
+        }
+        if (bottomTeamLost && topTeamLost)  {
+          //Hit case where calculating a spread before game has occurred
+          return Math.abs(winningScore - losingScore);
+        } else if (pickedLosingTeamToWin) {
+          console.log('picked losing team to win!')
+          return -Math.abs(winningScore - losingScore);
+        }
+        return Math.abs(winningScore - losingScore);
+      }
+
+      private getPictureFromTeamElementId(id: string) {
+          const team = document.getElementById(id);
+          for(let index in team.children) {
+              if (team.children[index].className === 'teamPicture') {
+                  return team.children[index];
+              }
+          };
+      }
       
       public loadLogo(round: Number, logo: String) {
         if (round === 1 || logo) {
@@ -181,7 +339,7 @@ export class CompareBracketsComponent implements OnInit {
             rounds = Array(Math.ceil(roundEstimate) + 1).fill(0).map((x, i) => i + 1);
         }
         this.totalRounds = rounds.length;
-        return rounds;
+        this.roundsArray = rounds;
       }
     }
     

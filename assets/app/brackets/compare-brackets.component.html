@@ -11,6 +11,31 @@
     <header>
         <h1>{{allSports[selectedSportIndex].name}} 2017-18 Post Season Bracket</h1>
     </header>
+    <div class="compareTable">
+      <h4 class="scoreTitle">Point Tally</h4>
+      <tr>
+          <td></td>
+          <td colspan="2"><b>Wild Card</b></td>
+          <td colspan="2"><b>Divisional</b></td>
+      </tr>
+      <tr class="headerRow">
+          <td>Team Name</td>
+          <td>Ws</td>
+          <td>Sp, O/U, Bo</td>
+          <td>Ws</td>
+          <td>Sp, O/U, Bo</td>
+          <td>Total</td>
+      </tr>
+      <tr *ngFor="let bracket of bracketPicks; let bracketNum = index"
+        class="{{bracketNum % 2 == 0 ? 'greyRow' : 'whiteRow'}}">
+        <td>{{bracket['currentPick']['firstName'] + ' ' + bracket['currentPick']['lastName']}}</td>
+        <td>{{getRoundWins(2, bracket['currentPick']['picks'])}}</td>
+        <td>{{getPointsFromScore(2,bracket['currentPick'], bracketNum, 'spread')}}</td>
+        <td>{{getRoundWins(3, bracket['currentPick']['picks'])}}</td>
+        <td>{{getPointsFromScore(3,bracket['currentPick'], bracketNum, 'spread')}}</td>
+        <td>{{getTotalPoints()}}</td>
+      </tr>
+    </div>
     <div *ngFor="let bracket of bracketPicks; let bracketNum = index">
       <div class="bracketName">
         {{bracket['currentPick']['firstName'] + ' ' + bracket['currentPick']['lastName'] + '\'s Bracket'}}
@@ -18,7 +43,7 @@
       <div class="bracket">
           <div *ngFor="let conf of allSports[selectedSportIndex].playoffTeams"
               class="{{conf.className}} conference">
-              <div *ngFor="let round of numberOfRounds(conf.teams.length)"
+              <div *ngFor="let round of roundsArray"
                   class="round-{{round}} round">
                   <div *ngFor="let team of teamsInRound(conf.teams, round); let i = index"
                           class="teamContent{{team.name == 'spacerTeam' ? ' spacerTeam' : '' }} {{team.logo ? 'hasTeam' : ''}} {{i%2 == 0 ? 'top' : 'bottom'}} 
