@@ -8,7 +8,7 @@ import { PicksComponent } from "./picks/picks.component";
 
 
 const APP_ROUTES: Routes = [
-	{ path: '', redirectTo: '/picks/compare', pathMatch: 'full' },
+	{ path: '', redirectTo: '/brackets/compare', pathMatch: 'full' },
 	{ path: 'messages', component: MessagesComponent },
 	{ path: 'auth', component: AuthenticationComponent, loadChildren: './auth/auth.module#AuthModule' },
 	{ path: 'brackets', component: BracketsComponent, loadChildren: './brackets/brackets.module#BracketsModule' },

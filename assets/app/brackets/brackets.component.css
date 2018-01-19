@@ -16,6 +16,15 @@ h1 {
     text-align: center;
 }
 
+.compareScoresRow {
+    display: flex;
+    flex-direction: row;
+}
+
+.compareScoresRow div {
+    padding: 0 2px;
+}
+
 .scoreTitle {
     font-size: 24px;
     text-align: center;
@@ -26,6 +35,25 @@ td {
     font-size: 14px;
     padding: 5px;
     text-align: center;
+}
+
+.totalsRow {
+    font-weight: bold;
+}
+
+.scoresTable {
+    margin: 5px auto;
+}
+
+.buttonHover {
+    cursor: pointer;
+    border: outset;
+    background-color: lightgray;
+}
+
+.dividerLineRow {
+    border-top: solid 1px;
+    border-bottom: solid 1px;
 }
 
 .greyRow {

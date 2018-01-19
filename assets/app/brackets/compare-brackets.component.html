@@ -13,28 +13,45 @@
     </header>
     <div class="compareTable">
       <h4 class="scoreTitle">Point Tally</h4>
-      <tr>
-          <td></td>
-          <td colspan="2"><b>Wild Card</b></td>
-          <td colspan="2"><b>Divisional</b></td>
-      </tr>
-      <tr class="headerRow">
-          <td>Team Name</td>
-          <td>Ws</td>
-          <td>Sp, O/U, Bo</td>
-          <td>Ws</td>
-          <td>Sp, O/U, Bo</td>
-          <td>Total</td>
-      </tr>
-      <tr *ngFor="let bracket of bracketPicks; let bracketNum = index"
-        class="{{bracketNum % 2 == 0 ? 'greyRow' : 'whiteRow'}}">
-        <td>{{bracket['currentPick']['firstName'] + ' ' + bracket['currentPick']['lastName']}}</td>
-        <td>{{getRoundWins(2, bracket['currentPick']['picks'])}}</td>
-        <td>{{getPointsFromScore(2,bracket['currentPick'], bracketNum, 'spread')}}</td>
-        <td>{{getRoundWins(3, bracket['currentPick']['picks'])}}</td>
-        <td>{{getPointsFromScore(3,bracket['currentPick'], bracketNum, 'spread')}}</td>
-        <td>{{getTotalPoints()}}</td>
-      </tr>
+      <table class="scoresTable">
+        <tbody *ngFor="let bracket of bracketPicks; let bracketNum = index"
+          class="{{bracketNum % 2 == 1 ? 'greyRow' : 'whiteRow'}}">
+          <tr class="headerRow" *ngIf="bracketNum == 0">
+              <td>Player Name</td>
+              <td>Round / Team Picked</td>
+              <td>Ws</td>
+              <td>Sp, Pts, Bo</td>
+              <td>Round / Team Picked</td>
+              <td>Ws</td>
+              <td>Sp, Pts, Bo</td>
+              <td>Total</td>
+          </tr>
+          <tr class="totalsRow">
+            <td>{{bracket['currentPick']['firstName'] + ' ' + bracket['currentPick']['lastName']}}</td>
+            <td>Wild Card</td>
+            <td>{{getRoundWins(2, bracket['currentPick']['picks'])}}</td>
+            <td>{{getPointsFromScore(2,bracket['currentPick'], bracketNum, 'spread')}}</td>
+            <td>Divisional</td>
+            <td>{{getRoundWins(3, bracket['currentPick']['picks'])}}</td>
+            <td>{{getPointsFromScore(3,bracket['currentPick'], bracketNum, 'spread')}}</td>
+            <td>{{getTotalPoints()}}</td>
+            <td></td>
+            <td (click)="toggleAdditionalDetails(bracketNum)" class="buttonHover">Toggle Individual Games</td>
+          </tr>
+          <tr *ngFor="let game of countPicks(bracketNum); let gameNum = index"
+            [hidden]="hideExtraDetails[bracketNum]"
+            class="specificGameScores {{gameNum % 2 == 0 ? 'dividerLineRow' : ''}}">
+            <td></td>
+            <td>{{game[0]['team']['name']}}</td>
+            <td>{{getRoundWins(2, bracket['currentPick']['picks'], game[0].spot, game[0].Conference)}}</td>
+            <td>{{getPointsFromScore(2,bracket['currentPick'], bracketNum, 'spread', game[0])}}</td>
+            <td>{{game[1]['team']['name']}}</td>
+            <td>{{getRoundWins(3, bracket['currentPick']['picks'], game[1].spot, game[1].Conference)}}</td>
+            <td>{{getPointsFromScore(3,bracket['currentPick'], bracketNum, 'spread', game[1])}}</td>
+            <td>{{getTotalPoints()}}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
     <div *ngFor="let bracket of bracketPicks; let bracketNum = index">
       <div class="bracketName">
