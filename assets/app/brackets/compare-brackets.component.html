@@ -24,6 +24,9 @@
               <td>Round / Team Picked</td>
               <td>Ws</td>
               <td>Sp, Pts, Bo</td>
+              <td>Round / Team Picked</td>
+              <td>Ws</td>
+              <td>Sp, Pts, Bo</td>
               <td>Total</td>
           </tr>
           <tr class="totalsRow">
@@ -34,9 +37,12 @@
             <td>Divisional</td>
             <td>{{getRoundWins(3, bracket['currentPick']['picks'])}}</td>
             <td>{{getPointsFromScore(3,bracket['currentPick'], bracketNum, 'spread')}}</td>
+            <td>Conf</td>
+            <td>{{getRoundWins(4, bracket['currentPick']['picks'])}}</td>
+            <td>{{getPointsFromScore(4,bracket['currentPick'], bracketNum, 'spread')}}</td>
             <td>{{getTotalPoints()}}</td>
             <td></td>
-            <td (click)="toggleAdditionalDetails(bracketNum)" class="buttonHover">Toggle Individual Games</td>
+            <td (click)="toggleAdditionalDetails(bracketNum)" class="buttonHover">Toggle</td>
           </tr>
           <tr *ngFor="let game of countPicks(bracketNum); let gameNum = index"
             [hidden]="hideExtraDetails[bracketNum]"
@@ -46,8 +52,11 @@
             <td>{{getRoundWins(2, bracket['currentPick']['picks'], game[0].spot, game[0].Conference)}}</td>
             <td>{{getPointsFromScore(2,bracket['currentPick'], bracketNum, 'spread', game[0])}}</td>
             <td>{{game[1]['team']['name']}}</td>
-            <td>{{getRoundWins(3, bracket['currentPick']['picks'], game[1].spot, game[1].Conference)}}</td>
-            <td>{{getPointsFromScore(3,bracket['currentPick'], bracketNum, 'spread', game[1])}}</td>
+            <td>{{game[1] ? getRoundWins(3, bracket['currentPick']['picks'], game[1].spot, game[1].Conference) : ''}}</td>
+            <td>{{game[1] ? getPointsFromScore(3,bracket['currentPick'], bracketNum, 'spread', game[1]) : ''}}</td>
+            <td>{{game[2] ? game[2]['team']['name'] : ''}}</td>
+            <td>{{game[2] ? getRoundWins(4, bracket['currentPick']['picks'], game[2].spot, game[2].Conference) : ''}}</td>
+            <td>{{game[2] ? getPointsFromScore(4,bracket['currentPick'], bracketNum, 'spread', game[2]) : ''}}</td>
             <td>{{getTotalPoints()}}</td>
           </tr>
         </tbody>

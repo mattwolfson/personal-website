@@ -112,32 +112,16 @@ export class CompareBracketsComponent implements OnInit {
 
       public toggleAdditionalDetails(bracketNum: string) {
         this.hideExtraDetails[bracketNum] = !this.hideExtraDetails[bracketNum];
-          // console.log(bracketNum);
-          // const id = 'game-details-' + bracketNum;
-          // const rows = document.getElementsByClassName(id);
-          // console.log(rows);
-          // for(const index in rows) {
-          //   if (typeof rows[index] === 'object') {
-              
-          //     rows[index]['style'].display = "none";
-          //   }
-          // }
-          // if (x.style.display === "none") {
-          //     x.style.display = "table";
-          // } else {
-          //     x.style.display = "none";
-          // }
       }
+
       public getRoundWins(round: number, picks: any, spot: any, conf: any) {
         const playoffWinners: Array<String> = this.playoffWinners[round];
         let roundWins: number = 0;
-        if(spot) {console.log('round loop started ',spot);}
         for (let num in picks) {
             if (picks[num].round == round && 
                 !picks[num].isStartingPosition &&
                 (!spot || (spot === picks[num].spot && conf === picks[num].Conference))) {
                 if (playoffWinners.indexOf(picks[num].team.name) > -1) {
-                  if(spot) { console.log(spot, picks[num].team.name, picks[num].spot); }
                     roundWins++;
                 }
             }
@@ -282,7 +266,6 @@ export class CompareBracketsComponent implements OnInit {
           //Hit case where calculating a spread before game has occurred
           return Math.abs(winningScore - losingScore);
         } else if (pickedLosingTeamToWin) {
-          console.log('picked losing team to win!')
           return -Math.abs(winningScore - losingScore);
         }
         return Math.abs(winningScore - losingScore);
@@ -308,7 +291,6 @@ export class CompareBracketsComponent implements OnInit {
             }
           }
         }
-        console.log(picksForRound);
         return picksForRound;
       }
 

@@ -73,6 +73,7 @@ export class NflTeams {
         return {
             '2': ['Jacksonville Jaguars', 'Tennessee Titans', 'Atlanta Falcons', 'New Orleans Saints'],
             '3': ['Jacksonville Jaguars', 'New England Patriots', 'Philadelphia Eagles', 'Minnesota Vikings'],
+            '4': ['New England Patriots', 'Philadelphia Eagles'],
 
         }
     }
@@ -83,12 +84,12 @@ export class NflTeams {
                 'AFC-2-2': "10",
                 'AFC-3-0': "35",
                 'AFC-3-1': "45",
-                'AFC-4-0': "0",
+                'AFC-4-0': "24",
                 'NFC-2-1': "26",
                 'NFC-2-2': "31",
                 'NFC-3-0': "15",
                 'NFC-3-1': "29",
-                'NFC-4-0': "0",
+                'NFC-4-0': "38",
                 'championship': "0"
             },
             'losers': {
@@ -96,12 +97,12 @@ export class NflTeams {
                 'AFC-2-2': "3",
                 'AFC-3-0': "14",
                 'AFC-3-1': "42",
-                'AFC-4-0': "0",
+                'AFC-4-0': "20",
                 'NFC-2-1': "13",
                 'NFC-2-2': "26",
                 'NFC-3-0': "10",
                 'NFC-3-1': "24",
-                'NFC-4-0': "0",
+                'NFC-4-0': "7",
                 'championship': "0"
             }
         }
