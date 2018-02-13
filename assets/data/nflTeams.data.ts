@@ -74,7 +74,7 @@ export class NflTeams {
             '2': ['Jacksonville Jaguars', 'Tennessee Titans', 'Atlanta Falcons', 'New Orleans Saints'],
             '3': ['Jacksonville Jaguars', 'New England Patriots', 'Philadelphia Eagles', 'Minnesota Vikings'],
             '4': ['New England Patriots', 'Philadelphia Eagles'],
-
+            'championship': ['Philadelphia Eagles'],
         }
     }
     public getPlayoffScores() {
@@ -90,7 +90,7 @@ export class NflTeams {
                 'NFC-3-0': "15",
                 'NFC-3-1': "29",
                 'NFC-4-0': "38",
-                'championship': "0"
+                'championship': "41"
             },
             'losers': {
                 'AFC-2-1': "21",
@@ -103,7 +103,7 @@ export class NflTeams {
                 'NFC-3-0': "10",
                 'NFC-3-1': "24",
                 'NFC-4-0': "7",
-                'championship': "0"
+                'championship': "33"
             }
         }
     }

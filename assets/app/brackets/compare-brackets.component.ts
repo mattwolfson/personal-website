@@ -38,6 +38,10 @@ export class CompareBracketsComponent implements OnInit {
         topBracketScores: Object = {};
         roundsArray: Array<number>;
         hideExtraDetails: Array<boolean> = [];
+        winMultiplier: Object = {
+          '4': 2,
+          'championship': 3,
+        }
 
         allSports = [
             {
@@ -114,7 +118,8 @@ export class CompareBracketsComponent implements OnInit {
         this.hideExtraDetails[bracketNum] = !this.hideExtraDetails[bracketNum];
       }
 
-      public getRoundWins(round: number, picks: any, spot: any, conf: any) {
+      public getRoundWins(round: any, picks: any, spot: any, conf: any) {
+        const winMultiplier: number = this.winMultiplier[round] ? this.winMultiplier[round] : 1;
         const playoffWinners: Array<String> = this.playoffWinners[round];
         let roundWins: number = 0;
         for (let num in picks) {
@@ -126,7 +131,7 @@ export class CompareBracketsComponent implements OnInit {
                 }
             }
         }
-        this.totalPoints += roundWins;
+        this.totalPoints += roundWins*winMultiplier;
         return roundWins;
       }
 
@@ -143,7 +148,7 @@ export class CompareBracketsComponent implements OnInit {
         let totalPointsFromScore = 0;
         for(let game in bracket.scores.winners) {
           const gameValues = game.split('-');
-          if((round === 'championship' && game === 'champoinship') ||
+          if((round === 'championship' && game === 'championship') ||
             Number(gameValues[1]) === round) {
             if(!specificGame || (specificGame.round === gameValues[1] 
               && specificGame.spot === gameValues[2] 
@@ -280,7 +285,6 @@ export class CompareBracketsComponent implements OnInit {
         for(const index in rounds) {
           totalRoundPicksCounted = 0;
           const roundString = rounds[index] === 'champ' ? rounds[index] : 'round-' + rounds[index];
-
           for(const num in picks) {
             if (picks[num].id.indexOf(roundString) > -1 && !picks[num].isStartingPosition) {
               if (!picksForRound[totalRoundPicksCounted]) {
