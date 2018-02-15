@@ -18,35 +18,17 @@
           class="{{bracketNum % 2 == 1 ? 'greyRow' : 'whiteRow'}}">
           <tr class="headerRow" *ngIf="bracketNum == 0">
               <td>Player Name</td>
-              <td>Round / Team Picked</td>
-              <td>Ws</td>
-              <td>Sp, Pts, Bo</td>
-              <td>Round / Team Picked</td>
-              <td>Ws</td>
-              <td>Sp, Pts, Bo</td>
-              <td>Round / Team Picked</td>
-              <td>Ws</td>
-              <td>Sp, Pts, Bo</td>
-              <td>Round / Team Picked</td>
-              <td>W</td>
-              <td>Sp, Pts, Bo</td>
+              <ng-container *ngFor="let round of roundsArray">
+                <td>Round / Team Picked</td>
+                <td>Ws</td>
+                <td>Sp, Pts, Bo</td>
+              </ng-container>
               <td>Total</td>
-          </tr>
+            </tr>
           <tr class="totalsRow">
-            <td>{{bracket['currentPick']['firstName'] + ' ' + bracket['currentPick']['lastName']}}</td>
-            <td>Wild Card</td>
-            <td>{{getRoundWins(2, bracket['currentPick']['picks'])}}</td>
-            <td>{{getPointsFromScore(2,bracket['currentPick'], bracketNum, 'spread')}}</td>
-            <td>Divisional</td>
-            <td>{{getRoundWins(3, bracket['currentPick']['picks'])}}</td>
-            <td>{{getPointsFromScore(3,bracket['currentPick'], bracketNum, 'spread')}}</td>
-            <td>Conf</td>
-            <td>{{getRoundWins(4, bracket['currentPick']['picks'])}}</td>
-            <td>{{getPointsFromScore(4,bracket['currentPick'], bracketNum, 'spread')}}</td>
-            <td>SB</td>
-            <td>{{getRoundWins('championship', bracket['currentPick']['picks'])}}</td>
-            <td>{{getPointsFromScore('championship',bracket['currentPick'], bracketNum, 'spread')}}</td>
-            <td>{{getTotalPoints()}}</td>
+            <ng-container *ngFor="let cell of pointTally[bracketNum]">
+                <td>{{cell}}</td>
+            </ng-container>
             <td></td>
             <td (click)="toggleAdditionalDetails(bracketNum)" class="buttonHover">Toggle</td>
           </tr>

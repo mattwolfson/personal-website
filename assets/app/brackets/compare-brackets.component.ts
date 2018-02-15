@@ -1,3 +1,4 @@
+import { bracketsRouting } from './brackets.routing';
 import { Conference } from './conference.model';
 import { NflTeams } from './../../data/nflTeams.data';
 import { NbaTeams } from './../../data/nbaTeams.data';
@@ -42,6 +43,9 @@ export class CompareBracketsComponent implements OnInit {
           '4': 2,
           'championship': 3,
         }
+        roundNames: Array<String> = ['Wild Card','Div','Conf','SB'];
+        finalRoundNum: number = 5;
+        pointTally: Array<any> = [];
 
         allSports = [
             {
@@ -65,8 +69,9 @@ export class CompareBracketsComponent implements OnInit {
                     console.log(picks);
                     this.bracketPicks = picks;
                     this.setUpExtraDetails();
-                    this.numberOfRounds(this.allSports[this.selectedSportIndex].playoffTeams[0].teams.length)
+                    this.numberOfRounds(this.allSports[this.selectedSportIndex].playoffTeams[0].teams.length);
                     this.getBestPointFromScore();
+                    this.calculateBracketTotals();
                     const self = this;
                     setTimeout(function(){ self.showPicks(); }, 100);
                 } else {
@@ -118,7 +123,7 @@ export class CompareBracketsComponent implements OnInit {
         this.hideExtraDetails[bracketNum] = !this.hideExtraDetails[bracketNum];
       }
 
-      public getRoundWins(round: any, picks: any, spot: any, conf: any) {
+      public getRoundWins(round: any, picks: any, spot?: any, conf?: any) {
         const winMultiplier: number = this.winMultiplier[round] ? this.winMultiplier[round] : 1;
         const playoffWinners: Array<String> = this.playoffWinners[round];
         let roundWins: number = 0;
@@ -141,7 +146,7 @@ export class CompareBracketsComponent implements OnInit {
         return bracketTotalPoints;
       }
 
-      public getPointsFromScore(round: any, bracket: any,  bracketNum: any, metric: string, specificGame: any) {
+      public getPointsFromScore(round: any, bracket: any,  bracketNum: any, metric: string, specificGame?: any) {
         let spreadPoints = 0;
         let overUnderPoints = 0;
         let bonusPoints = 0;
@@ -173,6 +178,29 @@ export class CompareBracketsComponent implements OnInit {
 
         this.totalPoints += spreadPoints + overUnderPoints + bonusPoints;
         return spreadPoints + ', ' + overUnderPoints + ', ' + bonusPoints;
+      }
+
+      public calculateBracketTotals() {
+        let resultsTable = [];
+        let bracketNum = 0;
+        for(let bracket of this.bracketPicks) {
+          let resultsRow = [];
+          let roundIndex = 0;
+          resultsRow.push(bracket['currentPick']['firstName'] + ' ' + bracket['currentPick']['lastName']);
+          for (let round of this.roundsArray) {
+            const roundName = round + 1 == this.finalRoundNum ? 'championship' : round + 1;
+            resultsRow.push(this.roundNames[roundIndex])
+            resultsRow.push(this.getRoundWins(roundName, bracket['currentPick']['picks']));
+            resultsRow.push(this.getPointsFromScore(roundName, bracket['currentPick'], bracketNum, 'spread'));
+            roundIndex++;
+          }
+          const totalPoints = this.getTotalPoints();
+          resultsRow.push(totalPoints);
+          bracketNum++;
+          resultsTable.push(resultsRow);
+        }
+        console.log('yoooo', resultsTable);
+        this.pointTally = resultsTable;
       }
 
       public getBestPointFromScore() {
@@ -385,6 +413,7 @@ export class CompareBracketsComponent implements OnInit {
         }
         this.totalRounds = rounds.length;
         this.roundsArray = rounds;
+        console.log(rounds);
       }
     }
     
